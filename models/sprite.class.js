@@ -1,6 +1,6 @@
 class Sprite {
-  x;
-  y;
+  x = 100;
+  y = 300;
   img;
 
   loadImage(path) {

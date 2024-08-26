@@ -1,0 +1,1 @@
+class Light extends Sprite {}

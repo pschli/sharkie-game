@@ -1,0 +1,1 @@
+class Reef extends Sprite {}
