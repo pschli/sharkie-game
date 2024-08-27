@@ -1,1 +1,1 @@
-class water extends Sprite {}
+class water extends Background {}

@@ -2,10 +2,16 @@ class Sprite {
   x = 100;
   y = 300;
   img;
+  ar;
 
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
+    this.getAspectRatio();
+  }
+
+  getAspectRatio() {
+    this.ar = this.img.width / this.img.height;
   }
 
   moveLeft() {

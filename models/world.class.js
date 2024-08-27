@@ -1,5 +1,8 @@
 class World {
   character = new Character();
+  background = [
+    new Background("img/3_Background/Layers/3_Fondo_1/D1.png", canvas.height),
+  ];
   ctx;
   canvas;
 
@@ -11,17 +14,28 @@ class World {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.drawImage(
-      this.character.img,
-      this.character.x,
-      this.character.y,
-      100,
-      100
-    );
+    this.addObjectsToMap(this.background);
+    this.addToMap(this.character);
 
     let self = this;
     requestAnimationFrame(function () {
       self.draw();
+    });
+  }
+
+  addToMap(sprite) {
+    this.ctx.drawImage(
+      sprite.img,
+      sprite.x,
+      sprite.y,
+      sprite.width,
+      sprite.height
+    );
+  }
+
+  addObjectsToMap(objects) {
+    objects.forEach((object) => {
+      this.addToMap(object);
     });
   }
 }
