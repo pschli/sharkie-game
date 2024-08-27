@@ -77,9 +77,9 @@ class Puffer extends Sprite {
   ];
 
   IMAGES_DEAD = [
-    "img/2_Enemy/1_Puffer_fish_(3_color_options)/4_DIE/1.Dead_1_(can_animate_by_going_up).png",
-    "img/2_Enemy/1_Puffer_fish_(3_color_options)/4_DIE/2.png",
-    "img/2_Enemy/1_Puffer_fish_(3_color_options)/4_DIE/3.png",
+    "../img/2_Enemy/1_Puffer_fish_(3_color_options)/4_DIE/1.Dead_1_(can_animate_by_going_up).png",
+    "../img/2_Enemy/1_Puffer_fish_(3_color_options)/4_DIE/2.png",
+    "../img/2_Enemy/1_Puffer_fish_(3_color_options)/4_DIE/3.png",
   ];
 
   constructor(image) {
