@@ -13,7 +13,7 @@ class World {
     new Background("../img/3_Background/Layers/2_Floor/D1.png", canvas.height),
   ];
   enemies = [
-    new Enemy(
+    new Puffer(
       "../img/2_Enemy/1_Puffer_fish_(3_color_options)/1_Swim/1_swim1.png"
     ),
   ];
