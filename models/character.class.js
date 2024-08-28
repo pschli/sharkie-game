@@ -1,7 +1,10 @@
 class Character extends Sprite {
-  x = 100;
+  x = 50;
   y = 100;
   ar = 0.815;
+  speed = 3;
+  world;
+
   IMAGES_MOVING = [
     "../img/1_Sharkie/3_Swim/1.png",
     "../img/1_Sharkie/3_Swim/2.png",
@@ -119,16 +122,42 @@ class Character extends Sprite {
     this.height = 300;
     this.width = this.height * this.ar;
     this.loadImages(this.IMAGES_MOVING);
+    this.loadImages(this.IMAGES_IDLE);
     this.animate();
   }
 
   animate() {
     setInterval(() => {
-      let i = this.currentImage % this.IMAGES_MOVING.length;
-      let path = this.IMAGES_MOVING[i];
-      this.img = this.imageCache[path];
-      this.currentImage++;
-    }, 150);
+      if (this.world.keyboard.RIGHT) {
+        this.x += this.speed;
+        this.otherDirection = false;
+      }
+      if (this.world.keyboard.LEFT) {
+        this.x -= this.speed;
+        this.otherDirection = true;
+      }
+      if (this.world.keyboard.UP) this.y -= this.speed;
+      if (this.world.keyboard.DOWN) this.y += this.speed;
+    }, 1000 / 60);
+
+    setInterval(() => {
+      if (
+        this.world.keyboard.RIGHT ||
+        this.world.keyboard.LEFT ||
+        this.world.keyboard.UP ||
+        this.world.keyboard.DOWN
+      ) {
+        let i = this.currentImage % this.IMAGES_MOVING.length;
+        let path = this.IMAGES_MOVING[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+      } else {
+        let i = this.currentImage % this.IMAGES_IDLE.length;
+        let path = this.IMAGES_IDLE[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+      }
+    }, 100);
   }
 
   attack() {}

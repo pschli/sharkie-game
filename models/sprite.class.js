@@ -4,6 +4,8 @@ class Sprite {
   img;
   ar;
   imageCache = {};
+  speed = 0.15;
+  otherDirection = false;
 
   loadImage(path) {
     this.img = new Image();
@@ -19,7 +21,9 @@ class Sprite {
   }
 
   moveLeft() {
-    console.log("sprite moved left");
+    setInterval(() => {
+      this.x -= this.speed;
+    }, 1000 / 60);
   }
 
   moveRight() {

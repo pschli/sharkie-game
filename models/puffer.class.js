@@ -1,5 +1,5 @@
 class Pufferfish extends Sprite {
-  x = 500;
+  x = canvas.width + Math.floor(Math.random() * 100);
   y = 100;
   variant = Math.floor(Math.random() * 3);
   currentImage = 0;
@@ -88,10 +88,12 @@ class Pufferfish extends Sprite {
     this.height = 100;
     this.width = this.height * this.ar;
     this.loadImages(this.IMAGES_MOVING[this.variant]);
+    this.speed = 0.15 + Math.random() * 0.5;
     this.animate();
   }
 
   animate() {
+    this.moveLeft();
     setInterval(() => {
       let i = this.currentImage % this.IMAGES_MOVING[this.variant].length;
       let path = this.IMAGES_MOVING[this.variant][i];

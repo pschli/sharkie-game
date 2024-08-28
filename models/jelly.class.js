@@ -1,5 +1,5 @@
 class Jelly extends Sprite {
-  x = 350;
+  x = canvas.width + Math.floor(Math.random() * 200);
   y = 300;
   height = 100;
   variant = Math.floor(Math.random() * 4);
@@ -64,10 +64,12 @@ class Jelly extends Sprite {
     super().loadImage(this.IMAGES_MOVING[this.variant][0]);
     this.width = this.height * this.ar;
     this.loadImages(this.IMAGES_MOVING[this.variant]);
+    this.speed = 0.5 + Math.random() * 0.5;
     this.animate();
   }
 
   animate() {
+    this.moveLeft();
     setInterval(() => {
       let i = this.currentImage % this.IMAGES_MOVING[this.variant].length;
       let path = this.IMAGES_MOVING[this.variant][i];
