@@ -1,5 +1,5 @@
 class Character extends Sprite {
-  x = 50;
+  x = 100;
   y = 100;
   ar = 0.815;
   speed = 3;
@@ -132,10 +132,11 @@ class Character extends Sprite {
         this.x += this.speed;
         this.otherDirection = false;
       }
-      if (this.world.keyboard.LEFT) {
+      if (this.world.keyboard.LEFT && this.x > 100) {
         this.x -= this.speed;
         this.otherDirection = true;
       }
+      this.world.offset = -this.x + 100;
       if (this.world.keyboard.UP) this.y -= this.speed;
       if (this.world.keyboard.DOWN) this.y += this.speed;
     }, 1000 / 60);

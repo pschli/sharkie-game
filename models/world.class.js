@@ -1,26 +1,11 @@
 class World {
   character = new Character();
-  background = [
-    new Background("../img/3_Background/Layers/5_Water/D1.png", canvas.height),
-    new Background(
-      "../img/3_Background/Layers/4_Fondo_2/D1.png",
-      canvas.height
-    ),
-    new Background(
-      "../img/3_Background/Layers/3_Fondo_1/D1.png",
-      canvas.height
-    ),
-    new Background("../img/3_Background/Layers/2_Floor/D1.png", canvas.height),
-  ];
-  enemies = [
-    new Pufferfish(
-      "../img/2_Enemy/1_Puffer_fish_(3_color_options)/1_Swim/1_swim1.png"
-    ),
-    new Jelly("../img/2_Enemy/2_Jelly_fish/Regular_damage/Lila1.png"),
-  ];
+  background = level1.background;
+  enemies = level1.enemies;
   ctx;
   canvas;
   keyboard;
+  offset = 0;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -32,10 +17,11 @@ class World {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.translate(this.offset, 0);
     this.addObjectsToMap(this.background);
     this.addObjectsToMap(this.enemies);
     this.addToMap(this.character);
-
+    this.ctx.translate(-this.offset, 0);
     let self = this;
     requestAnimationFrame(function () {
       self.draw();
@@ -44,10 +30,7 @@ class World {
 
   addToMap(sprite) {
     if (sprite.otherDirection) {
-      this.ctx.save();
-      this.ctx.translate(sprite.width, 0);
-      this.ctx.scale(-1, 1);
-      sprite.x = sprite.x * -1;
+      this.flipImage(sprite);
     }
     this.ctx.drawImage(
       sprite.img,
@@ -57,9 +40,20 @@ class World {
       sprite.height
     );
     if (sprite.otherDirection) {
-      this.ctx.restore();
-      sprite.x = sprite.x * -1;
+      this.flipImageBack(sprite);
     }
+  }
+
+  flipImage(sprite) {
+    this.ctx.save();
+    this.ctx.translate(sprite.width, 0);
+    this.ctx.scale(-1, 1);
+    sprite.x = sprite.x * -1;
+  }
+
+  flipImageBack(sprite) {
+    this.ctx.restore();
+    sprite.x = sprite.x * -1;
   }
 
   addObjectsToMap(objects) {

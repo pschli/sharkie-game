@@ -2,9 +2,9 @@ class Background extends Sprite {
   x = 0;
   y = 0;
 
-  constructor(imagePath) {
+  constructor(imagePath, height) {
     super().loadImage(imagePath);
-    this.height = canvas.height;
+    this.height = height;
     this.getAspectRatio();
     this.width = this.height * this.ar;
   }

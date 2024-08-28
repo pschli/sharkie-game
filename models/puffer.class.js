@@ -1,5 +1,5 @@
 class Pufferfish extends Sprite {
-  x = canvas.width + Math.floor(Math.random() * 100);
+  x = 720 + Math.floor(Math.random() * 100);
   y = 100;
   variant = Math.floor(Math.random() * 3);
   currentImage = 0;

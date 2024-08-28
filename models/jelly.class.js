@@ -1,5 +1,5 @@
 class Jelly extends Sprite {
-  x = canvas.width + Math.floor(Math.random() * 200);
+  x = 720 + Math.floor(Math.random() * 200);
   y = 300;
   height = 100;
   variant = Math.floor(Math.random() * 4);
