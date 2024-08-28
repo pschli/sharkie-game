@@ -1,8 +1,9 @@
 class Pufferfish extends Sprite {
   x = 500;
   y = 100;
-  variant;
+  variant = Math.floor(Math.random() * 3);
   currentImage = 0;
+  ar = 1.217;
 
   IMAGES_MOVING = [
     [
@@ -83,10 +84,9 @@ class Pufferfish extends Sprite {
   ];
 
   constructor(image) {
-    super().loadImage(image);
+    super().loadImage(this.IMAGES_MOVING[this.variant][0]);
     this.height = 100;
     this.width = this.height * this.ar;
-    this.variant = Math.floor(Math.random() * 3);
     this.loadImages(this.IMAGES_MOVING[this.variant]);
     this.animate();
   }

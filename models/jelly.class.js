@@ -1,8 +1,10 @@
 class Jelly extends Sprite {
   x = 350;
   y = 300;
-  variant;
+  height = 100;
+  variant = Math.floor(Math.random() * 4);
   currentImage = 0;
+  ar = 0.7;
 
   IMAGES_MOVING = [
     [
@@ -58,11 +60,9 @@ class Jelly extends Sprite {
     ],
   ];
 
-  constructor(image) {
-    super().loadImage(image);
-    this.height = 100;
+  constructor() {
+    super().loadImage(this.IMAGES_MOVING[this.variant][0]);
     this.width = this.height * this.ar;
-    this.variant = Math.floor(Math.random() * 4);
     this.loadImages(this.IMAGES_MOVING[this.variant]);
     this.animate();
   }

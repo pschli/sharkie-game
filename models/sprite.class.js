@@ -8,7 +8,6 @@ class Sprite {
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
-    this.getAspectRatio();
   }
 
   loadImages(arr) {
@@ -17,10 +16,6 @@ class Sprite {
       img.src = path;
       this.imageCache[path] = img;
     });
-  }
-
-  getAspectRatio() {
-    this.ar = this.img.width / this.img.height;
   }
 
   moveLeft() {

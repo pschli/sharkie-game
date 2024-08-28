@@ -1,6 +1,7 @@
 class Character extends Sprite {
   x = 100;
   y = 100;
+  ar = 0.815;
   IMAGES_MOVING = [
     "../img/1_Sharkie/3_Swim/1.png",
     "../img/1_Sharkie/3_Swim/2.png",
