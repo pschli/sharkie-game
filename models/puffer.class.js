@@ -1,4 +1,4 @@
-class Puffer extends Sprite {
+class Pufferfish extends Sprite {
   x = 500;
   y = 100;
   variant;

@@ -1,6 +1,6 @@
 class Jelly extends Sprite {
-  x = 500;
-  y = 100;
+  x = 350;
+  y = 300;
   variant;
   currentImage = 0;
 
