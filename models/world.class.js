@@ -22,7 +22,7 @@ class World {
           console.log("collision with:", enemy);
         }
       });
-    }, 1000);
+    }, 200);
   }
 
   draw() {
@@ -62,7 +62,7 @@ class World {
       this.flipImage(sprite);
     }
     sprite.drawSprite(this.ctx);
-    sprite.drawFrame(this.ctx);
+    //  sprite.drawFrame(this.ctx);
 
     if (sprite.otherDirection) {
       this.flipImageBack(sprite);

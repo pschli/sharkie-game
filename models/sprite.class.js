@@ -70,11 +70,13 @@ class Sprite {
     );
   }
 
-  playAnimation(images) {
+  playAnimation(images, attack = false) {
     let i = this.currentImage % images.length;
     let path = images[i];
     this.img = this.imageCache[path];
     this.currentImage++;
+    if (attack && this.currentImage % images.length === 0)
+      keyboard.ATTACK = false;
   }
 
   moveLeft() {

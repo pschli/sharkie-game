@@ -127,6 +127,7 @@ class Character extends Sprite {
     this.width = this.height * this.ar;
     this.loadImages(this.IMAGES_MOVING);
     this.loadImages(this.IMAGES_IDLE);
+    this.loadImages(this.IMAGES_ATTACK_FIN);
     this.animate();
   }
 
@@ -154,6 +155,8 @@ class Character extends Sprite {
         this.world.keyboard.DOWN
       ) {
         this.playAnimation(this.IMAGES_MOVING);
+      } else if (this.world.keyboard.ATTACK) {
+        this.playAnimation(this.IMAGES_ATTACK_FIN, true);
       } else {
         this.playAnimation(this.IMAGES_IDLE);
       }
