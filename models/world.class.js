@@ -1,7 +1,6 @@
 class World {
   character = new Character();
-  background = level1.background;
-  enemies = level1.enemies;
+  level = level1;
   ctx;
   canvas;
   keyboard;
@@ -13,32 +12,58 @@ class World {
     this.keyboard = keyboard;
     this.draw();
     this.setWorld();
+    this.checkCollisions();
+  }
+
+  checkCollisions() {
+    setInterval(() => {
+      this.level.enemies.forEach((enemy) => {
+        if (this.character.isColliding(enemy)) {
+          console.log("collision with:", enemy);
+        }
+      });
+    }, 1000);
   }
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.translate(this.offset, 0);
-    this.addObjectsToMap(this.background);
-    this.addObjectsToMap(this.enemies);
-    this.addToMap(this.character);
-    this.ctx.translate(-this.offset, 0);
+    this.drawBackground();
+    this.drawMiddleground();
+    this.drawForeground();
+
     let self = this;
     requestAnimationFrame(function () {
       self.draw();
     });
   }
 
+  drawBackground() {
+    this.ctx.translate(this.offset / 5, 0);
+    this.addObjectsToMap(this.level.background);
+    this.ctx.translate(-(this.offset / 5), 0);
+  }
+
+  drawMiddleground() {
+    this.ctx.translate(this.offset / 3, 0);
+    this.addObjectsToMap(this.level.middleground);
+    this.ctx.translate(-(this.offset / 3), 0);
+  }
+
+  drawForeground() {
+    this.ctx.translate(this.offset, 0);
+    this.addObjectsToMap(this.level.foreground);
+    this.addObjectsToMap(this.level.enemies);
+    this.addToMap(this.character);
+    this.ctx.translate(-this.offset, 0);
+  }
+
   addToMap(sprite) {
     if (sprite.otherDirection) {
       this.flipImage(sprite);
     }
-    this.ctx.drawImage(
-      sprite.img,
-      sprite.x,
-      sprite.y,
-      sprite.width,
-      sprite.height
-    );
+    sprite.drawSprite(this.ctx);
+    sprite.drawFrame(this.ctx);
+
     if (sprite.otherDirection) {
       this.flipImageBack(sprite);
     }
@@ -64,5 +89,9 @@ class World {
 
   setWorld() {
     this.character.world = this;
+  }
+
+  returnCanvas() {
+    return this.canvas;
   }
 }

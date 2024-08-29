@@ -1,6 +1,10 @@
 class Character extends Sprite {
-  x = 100;
+  x = 50;
   y = 100;
+  collision_inset_top = 150;
+  collision_inset_bottom = 225;
+  collision_inset_left = 50;
+  collision_inset_right = 100;
   ar = 0.815;
   speed = 3;
   world;
@@ -128,17 +132,18 @@ class Character extends Sprite {
 
   animate() {
     setInterval(() => {
-      if (this.world.keyboard.RIGHT) {
-        this.x += this.speed;
+      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
         this.otherDirection = false;
+        this.moveRight();
       }
-      if (this.world.keyboard.LEFT && this.x > 100) {
-        this.x -= this.speed;
+      if (this.world.keyboard.LEFT && this.x > 50) {
         this.otherDirection = true;
+        this.moveLeft();
       }
-      this.world.offset = -this.x + 100;
-      if (this.world.keyboard.UP) this.y -= this.speed;
-      if (this.world.keyboard.DOWN) this.y += this.speed;
+      this.world.offset = -this.x + 50;
+      if (this.world.keyboard.UP && this.y > -100) this.y -= this.speed;
+      if (this.world.keyboard.DOWN && this.y < this.world.canvas.height - 300)
+        this.y += this.speed;
     }, 1000 / 60);
 
     setInterval(() => {
@@ -148,15 +153,9 @@ class Character extends Sprite {
         this.world.keyboard.UP ||
         this.world.keyboard.DOWN
       ) {
-        let i = this.currentImage % this.IMAGES_MOVING.length;
-        let path = this.IMAGES_MOVING[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        this.playAnimation(this.IMAGES_MOVING);
       } else {
-        let i = this.currentImage % this.IMAGES_IDLE.length;
-        let path = this.IMAGES_IDLE[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        this.playAnimation(this.IMAGES_IDLE);
       }
     }, 100);
   }

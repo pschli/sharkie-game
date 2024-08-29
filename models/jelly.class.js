@@ -2,6 +2,10 @@ class Jelly extends Sprite {
   x = 720 + Math.floor(Math.random() * 200);
   y = 300;
   height = 100;
+  collision_inset_top = 10;
+  collision_inset_bottom = 20;
+  collision_inset_left = 5;
+  collision_inset_right = 10;
   variant = Math.floor(Math.random() * 4);
   currentImage = 0;
   ar = 0.7;
@@ -69,12 +73,11 @@ class Jelly extends Sprite {
   }
 
   animate() {
-    this.moveLeft();
     setInterval(() => {
-      let i = this.currentImage % this.IMAGES_MOVING[this.variant].length;
-      let path = this.IMAGES_MOVING[this.variant][i];
-      this.img = this.imageCache[path];
-      this.currentImage++;
+      this.moveLeft();
+    }, 1000 / 60);
+    setInterval(() => {
+      this.playAnimation(this.IMAGES_MOVING[this.variant]);
     }, 150);
   }
 }

@@ -1,6 +1,10 @@
 class Pufferfish extends Sprite {
   x = 720 + Math.floor(Math.random() * 100);
   y = 100;
+  collision_inset_top = 5;
+  collision_inset_bottom = 35;
+  collision_inset_left = 5;
+  collision_inset_right = 15;
   variant = Math.floor(Math.random() * 3);
   currentImage = 0;
   ar = 1.217;
@@ -93,12 +97,11 @@ class Pufferfish extends Sprite {
   }
 
   animate() {
-    this.moveLeft();
     setInterval(() => {
-      let i = this.currentImage % this.IMAGES_MOVING[this.variant].length;
-      let path = this.IMAGES_MOVING[this.variant][i];
-      this.img = this.imageCache[path];
-      this.currentImage++;
+      this.moveLeft();
+    }, 1000 / 60);
+    setInterval(() => {
+      this.playAnimation(this.IMAGES_MOVING[this.variant]);
     }, 150);
   }
 }
