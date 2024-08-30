@@ -7,7 +7,9 @@ class Pufferfish extends Sprite {
   collision_inset_right = 15;
   variant = Math.floor(Math.random() * 3);
   currentImage = 0;
+  puffState = "normal";
   ar = 1.217;
+  bubblestate = false;
 
   IMAGES_MOVING = [
     [
@@ -92,8 +94,26 @@ class Pufferfish extends Sprite {
     this.height = 100;
     this.width = this.height * this.ar;
     this.loadImages(this.IMAGES_MOVING[this.variant]);
+    this.loadImages(this.IMAGES_TRANSITION[this.variant]);
+    this.loadImages(this.IMAGES_BUBBLESWIM[this.variant]);
     this.speed = 0.15 + Math.random() * 0.5;
     this.animate();
+    this.checkTransformationDistance();
+  }
+
+  checkTransformationDistance() {
+    setInterval(() => {
+      if (this.characterIsClose()) this.transformToBubble();
+    }, 200);
+  }
+
+  characterIsClose() {
+    return this.x - world.character.x < 500 && this.puffState === "normal";
+  }
+
+  transformToBubble() {
+    this.puffState = "transition";
+    this.currentImage = 0;
   }
 
   animate() {
@@ -101,7 +121,16 @@ class Pufferfish extends Sprite {
       this.moveLeft();
     }, 1000 / 60);
     setInterval(() => {
-      this.playAnimation(this.IMAGES_MOVING[this.variant]);
+      if (this.puffState === "normal")
+        this.playAnimation(this.IMAGES_MOVING[this.variant]);
+      else if (this.puffState === "transition") {
+        this.playAnimation(this.IMAGES_TRANSITION[this.variant]);
+        if (this.currentImage === 4) {
+          this.puffState = "bubble";
+        }
+      } else if (this.puffState === "bubble") {
+        this.playAnimation(this.IMAGES_BUBBLESWIM[this.variant]);
+      }
     }, 150);
   }
 }

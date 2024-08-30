@@ -25,6 +25,7 @@ class Sprite {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
+  /*
   drawFrame(ctx) {
     if (
       this instanceof Character ||
@@ -42,31 +43,55 @@ class Sprite {
       );
       ctx.stroke();
     }
-  }
+  } */
 
   isColliding(sprite) {
+    return (
+      this.touchesLeftBorder(sprite) &&
+      this.touchesRightBorder(sprite) &&
+      this.touchesBottomBorder(sprite) &&
+      this.touchesTopBorder(sprite)
+      //     && sprite.onCollisionCourse
+    );
+  }
+
+  touchesLeftBorder(sprite) {
     return (
       this.x +
         this.collision_inset_left +
         this.width -
         this.collision_inset_right >=
-        sprite.x + sprite.collision_inset_left &&
+      sprite.x + sprite.collision_inset_left
+    );
+  }
+
+  touchesRightBorder(sprite) {
+    return (
       this.x + this.collision_inset_left <=
-        sprite.x +
-          sprite.collision_inset_left +
-          sprite.width -
-          sprite.collision_inset_right &&
+      sprite.x +
+        sprite.collision_inset_left +
+        sprite.width -
+        sprite.collision_inset_right
+    );
+  }
+
+  touchesBottomBorder(sprite) {
+    return (
       this.y +
         this.collision_inset_top +
         this.height -
         this.collision_inset_bottom >=
-        sprite.y + sprite.collision_inset_top &&
+      sprite.y + sprite.collision_inset_top
+    );
+  }
+
+  touchesTopBorder(sprite) {
+    return (
       this.y + this.collision_inset_top <=
-        sprite.y +
-          sprite.collision_inset_top +
-          sprite.height -
-          sprite.collision_inset_bottom
-      //     && sprite.onCollisionCourse
+      sprite.y +
+        sprite.collision_inset_top +
+        sprite.height -
+        sprite.collision_inset_bottom
     );
   }
 
@@ -77,6 +102,8 @@ class Sprite {
     this.currentImage++;
     if (attack && this.currentImage % images.length === 0)
       keyboard.ATTACK = false;
+    if (attack && this.currentImage % images.length === 0)
+      keyboard.BUBBLE = false;
   }
 
   moveLeft() {
@@ -88,10 +115,10 @@ class Sprite {
   }
 
   moveUp() {
-    console.log("sprite moved left");
+    this.y -= this.speed;
   }
 
   moveDown() {
-    console.log("sprite moved left");
+    this.y += this.speed;
   }
 }

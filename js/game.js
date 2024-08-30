@@ -17,7 +17,10 @@ window.addEventListener("keydown", (e) => {
     keyboard.ATTACK = true;
     world.character.currentImage = 0;
   }
-  if (e.code === "d") keyboard.BUBBLE = true;
+  if (e.code === "KeyD") {
+    keyboard.BUBBLE = true;
+    world.character.currentImage = 0;
+  }
   if (e.code === "Escape") keyboard.EXIT = true;
 });
 

@@ -128,39 +128,63 @@ class Character extends Sprite {
     this.loadImages(this.IMAGES_MOVING);
     this.loadImages(this.IMAGES_IDLE);
     this.loadImages(this.IMAGES_ATTACK_FIN);
+    this.loadImages(this.IMAGES_ATTACK_BUBBLE);
     this.animate();
+  }
+
+  movement() {
+    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+      this.otherDirection = false;
+      this.moveRight();
+    }
+    if (this.world.keyboard.LEFT && this.x > 50) {
+      this.otherDirection = true;
+      this.moveLeft();
+    }
+    this.world.offset = -this.x + 50;
+    if (this.world.keyboard.UP && this.y > -100) this.moveUp();
+    if (this.world.keyboard.DOWN && this.y < this.world.canvas.height - 300)
+      this.moveDown();
+  }
+
+  animationFrames() {
+    if (this.world.keyboard.ATTACK) {
+      this.playAnimation(this.IMAGES_ATTACK_FIN, true);
+    } else if (this.world.keyboard.BUBBLE) {
+      this.playAnimation(this.IMAGES_ATTACK_BUBBLE, true);
+    } else if (
+      this.world.keyboard.RIGHT ||
+      this.world.keyboard.LEFT ||
+      this.world.keyboard.UP ||
+      this.world.keyboard.DOWN
+    ) {
+      this.playAnimation(this.IMAGES_MOVING);
+    } else {
+      this.playAnimation(this.IMAGES_IDLE);
+    }
   }
 
   animate() {
     setInterval(() => {
-      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-        this.otherDirection = false;
-        this.moveRight();
-      }
-      if (this.world.keyboard.LEFT && this.x > 50) {
-        this.otherDirection = true;
-        this.moveLeft();
-      }
-      this.world.offset = -this.x + 50;
-      if (this.world.keyboard.UP && this.y > -100) this.y -= this.speed;
-      if (this.world.keyboard.DOWN && this.y < this.world.canvas.height - 300)
-        this.y += this.speed;
+      this.movement();
     }, 1000 / 60);
 
     setInterval(() => {
-      if (this.world.keyboard.ATTACK) {
-        this.playAnimation(this.IMAGES_ATTACK_FIN, true);
-      } else if (
-        this.world.keyboard.RIGHT ||
-        this.world.keyboard.LEFT ||
-        this.world.keyboard.UP ||
-        this.world.keyboard.DOWN
-      ) {
-        this.playAnimation(this.IMAGES_MOVING);
-      } else {
-        this.playAnimation(this.IMAGES_IDLE);
-      }
+      this.animationFrames();
     }, 100);
+  }
+
+  getHitByEnemy(enemy) {
+    if (enemy.constructor.name === "Pufferfish") this.hitByPufferfish(enemy);
+    else if (enemy.constructor.name === "Jelly") this.hitByJelly(enemy);
+  }
+
+  hitByJelly(enemy) {
+    console.log("Jelly hit me");
+  }
+
+  hitByPufferfish(enemy) {
+    console.log("Puffy hit me");
   }
 
   attack() {}
