@@ -148,15 +148,15 @@ class Character extends Sprite {
     }, 1000 / 60);
 
     setInterval(() => {
-      if (
+      if (this.world.keyboard.ATTACK) {
+        this.playAnimation(this.IMAGES_ATTACK_FIN, true);
+      } else if (
         this.world.keyboard.RIGHT ||
         this.world.keyboard.LEFT ||
         this.world.keyboard.UP ||
         this.world.keyboard.DOWN
       ) {
         this.playAnimation(this.IMAGES_MOVING);
-      } else if (this.world.keyboard.ATTACK) {
-        this.playAnimation(this.IMAGES_ATTACK_FIN, true);
       } else {
         this.playAnimation(this.IMAGES_IDLE);
       }
