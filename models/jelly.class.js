@@ -9,6 +9,7 @@ class Jelly extends Sprite {
   variant = Math.floor(Math.random() * 4);
   currentImage = 0;
   ar = 0.7;
+  dead = false;
 
   IMAGES_MOVING = [
     [
@@ -69,6 +70,8 @@ class Jelly extends Sprite {
     this.width = this.height * this.ar;
     this.loadImages(this.IMAGES_MOVING[this.variant]);
     this.speed = 0.5 + Math.random() * 0.5;
+    this.speed_x = this.speed;
+    this.speed_y = this.speed;
     this.animate();
   }
 

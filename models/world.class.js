@@ -1,6 +1,7 @@
 class World {
   character = new Character();
   level = level1;
+  bubbles = []; //new Bubble(this.character.x, this.character.y);
   ctx;
   canvas;
   keyboard;
@@ -54,6 +55,7 @@ class World {
     this.addObjectsToMap(this.level.foreground);
     this.addObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
+    this.addObjectsToMap(this.bubbles);
     this.ctx.translate(-this.offset, 0);
   }
 
@@ -62,7 +64,7 @@ class World {
       this.flipImage(sprite);
     }
     sprite.drawSprite(this.ctx);
-    //  sprite.drawFrame(this.ctx);
+    // sprite.drawFrame(this.ctx);
 
     if (sprite.otherDirection) {
       this.flipImageBack(sprite);

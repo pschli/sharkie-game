@@ -7,6 +7,12 @@ class Character extends Sprite {
   collision_inset_right = 100;
   ar = 0.815;
   speed = 3;
+  speed_x = this.speed;
+  speed_y = this.speed;
+  health = 100;
+  lastHit;
+  state = "normal";
+  death = "none";
   world;
 
   IMAGES_MOVING = [
@@ -129,38 +135,27 @@ class Character extends Sprite {
     this.loadImages(this.IMAGES_IDLE);
     this.loadImages(this.IMAGES_ATTACK_FIN);
     this.loadImages(this.IMAGES_ATTACK_BUBBLE);
+    this.loadImages(this.IMAGES_POISONED);
+    this.loadImages(this.IMAGES_SHOCKED);
+    this.loadImages(this.IMAGES_DEAD_POISON);
+    this.loadImages(this.IMAGES_DEAD_SHOCK);
     this.animate();
   }
 
   movement() {
-    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-      this.otherDirection = false;
-      this.moveRight();
-    }
-    if (this.world.keyboard.LEFT && this.x > 50) {
-      this.otherDirection = true;
-      this.moveLeft();
-    }
-    this.world.offset = -this.x + 50;
-    if (this.world.keyboard.UP && this.y > -100) this.moveUp();
-    if (this.world.keyboard.DOWN && this.y < this.world.canvas.height - 300)
-      this.moveDown();
-  }
-
-  animationFrames() {
-    if (this.world.keyboard.ATTACK) {
-      this.playAnimation(this.IMAGES_ATTACK_FIN, true);
-    } else if (this.world.keyboard.BUBBLE) {
-      this.playAnimation(this.IMAGES_ATTACK_BUBBLE, true);
-    } else if (
-      this.world.keyboard.RIGHT ||
-      this.world.keyboard.LEFT ||
-      this.world.keyboard.UP ||
-      this.world.keyboard.DOWN
-    ) {
-      this.playAnimation(this.IMAGES_MOVING);
-    } else {
-      this.playAnimation(this.IMAGES_IDLE);
+    if (this.death === "none") {
+      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+        this.otherDirection = false;
+        this.moveRight();
+      }
+      if (this.world.keyboard.LEFT && this.x > 50) {
+        this.otherDirection = true;
+        this.moveLeft();
+      }
+      this.world.offset = -this.x + 50;
+      if (this.world.keyboard.UP && this.y > -100) this.moveUp();
+      if (this.world.keyboard.DOWN && this.y < this.world.canvas.height - 300)
+        this.moveDown();
     }
   }
 
@@ -174,17 +169,115 @@ class Character extends Sprite {
     }, 100);
   }
 
+  animationFrames() {
+    if (this.death != "none") {
+      this.showDeath();
+    } else if (this.state === "poisoned") {
+      this.showPoisoned();
+    } else if (this.state === "shocked") {
+      this.showShocked();
+    } else if (this.world.keyboard.ATTACK) {
+      this.showFinAttack();
+    } else if (this.world.keyboard.BUBBLE) {
+      this.showBubbleAttack();
+    } else if (this.characterMoves()) {
+      this.playAnimation(this.IMAGES_MOVING);
+    } else {
+      this.playAnimation(this.IMAGES_IDLE);
+    }
+  }
+
+  characterMoves() {
+    return (
+      this.world.keyboard.RIGHT ||
+      this.world.keyboard.LEFT ||
+      this.world.keyboard.UP ||
+      this.world.keyboard.DOWN
+    );
+  }
+
+  showPoisoned() {
+    this.playAnimation(this.IMAGES_POISONED);
+    if (this.currentImage === this.IMAGES_POISONED.length) {
+      this.state = "normal";
+    }
+  }
+
+  showShocked() {
+    this.playAnimation(this.IMAGES_SHOCKED);
+    if (this.currentImage >= this.IMAGES_SHOCKED.length * 3) {
+      this.state = "normal";
+    }
+  }
+
+  showDeath() {
+    if (this.death === "shocked") {
+      this.playAnimation(this.IMAGES_DEAD_SHOCK);
+      if (this.currentImage === this.IMAGES_DEAD_SHOCK.length) {
+        this.death = "stay shocked";
+      }
+    } else if (this.death === "poisoned") {
+      this.playAnimation(this.IMAGES_DEAD_POISON);
+      if (this.currentImage === this.IMAGES_DEAD_POISON.length) {
+        this.death = "stay poisoned";
+      }
+    } else if (this.death === "stay poisoned") {
+      this.currentImage = 11;
+      this.playAnimation(this.IMAGES_DEAD_POISON);
+    } else if (this.death === "stay shocked") {
+      this.currentImage = 9;
+      this.playAnimation(this.IMAGES_DEAD_SHOCK);
+    }
+  }
+
+  showFinAttack() {
+    this.playAnimation(this.IMAGES_ATTACK_FIN);
+    this.lastHit = Date.now();
+    if (this.currentImage === this.IMAGES_ATTACK_FIN.length - 1)
+      keyboard.ATTACK = false;
+  }
+
+  showBubbleAttack() {
+    this.playAnimation(this.IMAGES_ATTACK_BUBBLE);
+    if (this.currentImage === this.IMAGES_ATTACK_BUBBLE.length - 1) {
+      keyboard.BUBBLE = false;
+      this.world.bubbles.push(new Bubble(this.x, this.y, this.otherDirection));
+    }
+  }
+
   getHitByEnemy(enemy) {
-    if (enemy.constructor.name === "Pufferfish") this.hitByPufferfish(enemy);
-    else if (enemy.constructor.name === "Jelly") this.hitByJelly(enemy);
+    if (!enemy.dead && this.death === "none") {
+      if (enemy.constructor.name === "Pufferfish")
+        this.takeDamage("poisoned", enemy);
+      else if (enemy.constructor.name === "Jelly") this.hitByJelly(enemy);
+    }
   }
 
   hitByJelly(enemy) {
-    console.log("Jelly hit me");
+    if (enemy.variant < 2) this.takeDamage("poisoned", enemy);
+    else this.takeDamage("shocked", enemy);
   }
 
-  hitByPufferfish(enemy) {
-    console.log("Puffy hit me");
+  takeDamage(damageType, enemy) {
+    if (
+      (!this.world.keyboard.ATTACK && !this.immuneToDamage()) ||
+      (damageType != "shocked" && !this.immuneToDamage())
+    ) {
+      this.health -= 10;
+      if (this.health <= 0) {
+        this.death = damageType;
+        this.speed = 0;
+      }
+      this.lastHit = Date.now();
+      this.state = damageType;
+      this.currentImage = 0;
+    } else if (this.world.keyboard.ATTACK && damageType != "shocked") {
+      enemy.dead = true;
+    }
+  }
+
+  immuneToDamage() {
+    return Date.now() - this.lastHit < 1000;
   }
 
   attack() {}

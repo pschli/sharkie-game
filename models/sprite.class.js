@@ -5,7 +5,8 @@ class Sprite {
   ar;
   imageCache = {};
   currentImage = 0;
-  speed = 0.15;
+  speed_x = 0.15;
+  speed_y = 0.15;
   otherDirection = false;
 
   loadImage(path) {
@@ -95,30 +96,26 @@ class Sprite {
     );
   }
 
-  playAnimation(images, attack = false) {
+  playAnimation(images) {
     let i = this.currentImage % images.length;
     let path = images[i];
     this.img = this.imageCache[path];
     this.currentImage++;
-    if (attack && this.currentImage % images.length === 0)
-      keyboard.ATTACK = false;
-    if (attack && this.currentImage % images.length === 0)
-      keyboard.BUBBLE = false;
   }
 
   moveLeft() {
-    this.x -= this.speed;
+    this.x -= this.speed_x;
   }
 
   moveRight() {
-    this.x += this.speed;
+    this.x += this.speed_x;
   }
 
   moveUp() {
-    this.y -= this.speed;
+    this.y -= this.speed_y;
   }
 
   moveDown() {
-    this.y += this.speed;
+    this.y += this.speed_y;
   }
 }
