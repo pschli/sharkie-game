@@ -36,7 +36,7 @@ class Bubble extends Sprite {
   hitTarget() {
     this.hitInterval = setInterval(() => {
       world.level.enemies.forEach((enemy) => {
-        if (this.isColliding(enemy)) {
+        if (this.isColliding(enemy) && !enemy.dead) {
           if (enemy.constructor.name === "Pufferfish") this.popBubble();
           else if (enemy.constructor.name === "Jelly")
             this.bubbleTrapEnemy(enemy);
@@ -51,14 +51,13 @@ class Bubble extends Sprite {
     this.currentImage = 0;
     setInterval(() => {
       this.playAnimation(this.IMAGES_POP);
-      if (this.currentImage === this.IMAGES_POP.length - 1)
-        this.terminateBubble();
+      if (this.currentImage === this.IMAGES_POP.length - 1) this.y = -300;
     }, 20);
   }
 
   bubbleTrapEnemy(enemy) {
     clearInterval(this.hitInterval);
-    this.terminateBubble();
+    this.y = -300;
     enemy.dead = true;
   }
 
@@ -66,8 +65,7 @@ class Bubble extends Sprite {
     let index = world.bubbles.findIndex((bubble) => {
       this === bubble;
     });
-    let trashBubble = world.bubbles.splice(index, 1);
-    trashBubble = null;
+    world.bubbles.splice(index, 1);
   }
 
   animate() {
