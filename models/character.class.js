@@ -264,6 +264,7 @@ class Character extends Sprite {
   takeDamage(damageType, enemy) {
     if (!this.immuneToDamage()) {
       this.health -= 10;
+      this.world.gameValues[0].setValue(this.health);
       if (this.health <= 0) {
         this.death = damageType;
         this.speed = 0;

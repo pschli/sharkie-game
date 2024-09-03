@@ -6,7 +6,6 @@ class Pufferfish extends Sprite {
   collision_inset_left = 15;
   collision_inset_right = 45;
   variant = Math.floor(Math.random() * 3);
-  currentImage = 0;
   puffState = "normal";
   ar = 1.217;
   dead = false;
@@ -85,9 +84,11 @@ class Pufferfish extends Sprite {
   ];
 
   IMAGES_DEAD = [
-    "../img/2_Enemy/1_Puffer_fish_(3_color_options)/4_DIE/1.Dead_1_(can_animate_by_going_up).png",
-    "../img/2_Enemy/1_Puffer_fish_(3_color_options)/4_DIE/2.png",
-    "../img/2_Enemy/1_Puffer_fish_(3_color_options)/4_DIE/3.png",
+    [
+      "../img/2_Enemy/1_Puffer_fish_(3_color_options)/4_DIE/1.Dead_1_(can_animate_by_going_up).png",
+    ],
+    ["../img/2_Enemy/1_Puffer_fish_(3_color_options)/4_DIE/2.png"],
+    ["../img/2_Enemy/1_Puffer_fish_(3_color_options)/4_DIE/3.png"],
   ];
 
   constructor(image) {
@@ -97,6 +98,7 @@ class Pufferfish extends Sprite {
     this.loadImages(this.IMAGES_MOVING[this.variant]);
     this.loadImages(this.IMAGES_TRANSITION[this.variant]);
     this.loadImages(this.IMAGES_BUBBLESWIM[this.variant]);
+    this.loadImages(this.IMAGES_DEAD[this.variant]);
     this.speed = 0.15 + Math.random() * 0.5;
     this.speed_x = this.speed;
     this.speed_y = this.speed;
@@ -123,10 +125,12 @@ class Pufferfish extends Sprite {
     setInterval(() => {
       if (!this.dead) this.moveLeft();
       else {
-        this.speed_x = 5;
-        this.speed_y = 5;
-        this.moveRight();
-        this.moveUp();
+        setTimeout(() => {
+          this.speed_x = 5;
+          this.speed_y = 5;
+          this.moveRight();
+          this.moveUp();
+        }, 300);
       }
     }, 1000 / 60);
     setInterval(() => {
@@ -135,7 +139,11 @@ class Pufferfish extends Sprite {
   }
 
   animationFrames() {
-    if (this.puffState === "normal")
+    if (this.dead) {
+      setTimeout(() => {
+        this.playAnimation(this.IMAGES_DEAD[this.variant]);
+      }, 200);
+    } else if (this.puffState === "normal")
       this.playAnimation(this.IMAGES_MOVING[this.variant]);
     else if (this.puffState === "transition") {
       this.playAnimation(this.IMAGES_TRANSITION[this.variant]);

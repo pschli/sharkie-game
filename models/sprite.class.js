@@ -1,15 +1,15 @@
-class Sprite {
-  x = 100;
+class Sprite extends Display {
+  /*x = 100;
   y = 300;
   img;
   ar;
   imageCache = {};
-  currentImage = 0;
+  currentImage = 0; */
   speed_x = 0.15;
   speed_y = 0.15;
   otherDirection = false;
 
-  loadImage(path) {
+  /* loadImage(path) {
     this.img = new Image();
     this.img.src = path;
   }

@@ -1,7 +1,8 @@
 class World {
   character = new Character();
+  gameValues = [new Life(), new Poison()];
   level = level1;
-  bubbles = []; //new Bubble(this.character.x, this.character.y);
+  bubbles = [];
   ctx;
   canvas;
   keyboard;
@@ -49,7 +50,7 @@ class World {
     this.drawBackground();
     this.drawMiddleground();
     this.drawForeground();
-
+    this.drawValues();
     let self = this;
     requestAnimationFrame(function () {
       self.draw();
@@ -75,6 +76,10 @@ class World {
     this.addToMap(this.character);
     this.addObjectsToMap(this.bubbles);
     this.ctx.translate(-this.offset, 0);
+  }
+
+  drawValues() {
+    this.addObjectsToMap(this.gameValues);
   }
 
   addToMap(sprite) {
