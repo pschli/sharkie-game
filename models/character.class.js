@@ -10,7 +10,7 @@ class Character extends Sprite {
   speed_x = this.speed;
   speed_y = this.speed;
   health = 100;
-  lastHit;
+  lastHit = 0;
   state = "normal";
   death = "none";
   world;
@@ -231,10 +231,12 @@ class Character extends Sprite {
   }
 
   showFinAttack() {
+    this.collision_inset_right = 50;
     this.playAnimation(this.IMAGES_ATTACK_FIN);
-    this.lastHit = Date.now();
-    if (this.currentImage === this.IMAGES_ATTACK_FIN.length - 1)
+    if (this.currentImage === this.IMAGES_ATTACK_FIN.length - 1) {
       keyboard.ATTACK = false;
+      this.collision_inset_right = 100;
+    }
   }
 
   showBubbleAttack() {
@@ -247,9 +249,10 @@ class Character extends Sprite {
 
   getHitByEnemy(enemy) {
     if (!enemy.dead && this.death === "none") {
-      if (enemy.constructor.name === "Pufferfish")
-        this.takeDamage("poisoned", enemy);
-      else if (enemy.constructor.name === "Jelly") this.hitByJelly(enemy);
+      if (enemy.constructor.name === "Pufferfish") {
+        if (this.world.keyboard.ATTACK) enemy.dead = true;
+        else this.takeDamage("poisoned", enemy);
+      } else if (enemy.constructor.name === "Jelly") this.hitByJelly(enemy);
     }
   }
 
@@ -259,10 +262,7 @@ class Character extends Sprite {
   }
 
   takeDamage(damageType, enemy) {
-    if (
-      (!this.world.keyboard.ATTACK && !this.immuneToDamage()) ||
-      (damageType != "shocked" && !this.immuneToDamage())
-    ) {
+    if (!this.immuneToDamage()) {
       this.health -= 10;
       if (this.health <= 0) {
         this.death = damageType;
@@ -271,14 +271,11 @@ class Character extends Sprite {
       this.lastHit = Date.now();
       this.state = damageType;
       this.currentImage = 0;
-    } else if (this.world.keyboard.ATTACK && damageType != "shocked") {
-      enemy.dead = true;
     }
   }
 
   immuneToDamage() {
-    return Date.now() - this.lastHit < 1000;
+    if (this.lastHit != 0) return Date.now() - this.lastHit < 1000;
+    else return false;
   }
-
-  attack() {}
 }

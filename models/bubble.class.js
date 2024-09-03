@@ -54,14 +54,12 @@ class Bubble extends Sprite {
       if (this.currentImage === this.IMAGES_POP.length - 1)
         this.terminateBubble();
     }, 20);
-    console.log("bubble popped");
   }
 
   bubbleTrapEnemy(enemy) {
     clearInterval(this.hitInterval);
     this.terminateBubble();
     enemy.dead = true;
-    console.log("enemy trapped");
   }
 
   terminateBubble() {

@@ -121,7 +121,13 @@ class Pufferfish extends Sprite {
 
   animate() {
     setInterval(() => {
-      this.moveLeft();
+      if (!this.dead) this.moveLeft();
+      else {
+        this.speed_x = 5;
+        this.speed_y = 5;
+        this.moveRight();
+        this.moveUp();
+      }
     }, 1000 / 60);
     setInterval(() => {
       this.animationFrames();

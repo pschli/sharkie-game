@@ -26,6 +26,7 @@ class Sprite {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
+  /*
   drawFrame(ctx) {
     if (
       this instanceof Character ||
@@ -43,7 +44,7 @@ class Sprite {
       );
       ctx.stroke();
     }
-  }
+  } */
 
   isColliding(sprite) {
     return (

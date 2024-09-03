@@ -41,7 +41,7 @@ class World {
           this.character.getHitByEnemy(enemy);
         }
       });
-    }, 200);
+    }, 50);
   }
 
   draw() {
@@ -82,7 +82,7 @@ class World {
       this.flipImage(sprite);
     }
     sprite.drawSprite(this.ctx);
-    sprite.drawFrame(this.ctx);
+    //   sprite.drawFrame(this.ctx);
 
     if (sprite.otherDirection) {
       this.flipImageBack(sprite);
