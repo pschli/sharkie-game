@@ -14,6 +14,24 @@ class World {
     this.draw();
     this.setWorld();
     this.checkCollisions();
+    this.checkObsolete();
+  }
+
+  checkObsolete() {
+    setInterval(() => {
+      for (let i = 0; i < this.level.enemies.length; i++) {
+        if (this.level.enemies[i].y < -200) {
+          this.level.enemies.splice(i, 1);
+          console.log("enemy deleted");
+        }
+      }
+      for (let i = 0; i < this.bubbles.length; i++) {
+        if (this.bubbles[i].y < -200) {
+          this.bubbles.splice(i, 1);
+          console.log("bubble deleted");
+        }
+      }
+    }, 500);
   }
 
   checkCollisions() {
@@ -64,7 +82,7 @@ class World {
       this.flipImage(sprite);
     }
     sprite.drawSprite(this.ctx);
-    // sprite.drawFrame(this.ctx);
+    sprite.drawFrame(this.ctx);
 
     if (sprite.otherDirection) {
       this.flipImageBack(sprite);

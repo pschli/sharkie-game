@@ -40,22 +40,10 @@ class Jelly extends Sprite {
 
   IMAGES_DEAD = [
     [
-      "../img/2_Enemy/2_Jelly_fish/Dead/green/g1.png",
-      "../img/2_Enemy/2_Jelly_fish/Dead/green/g2.png",
-      "../img/2_Enemy/2_Jelly_fish/Dead/green/g3.png",
-      "../img/2_Enemy/2_Jelly_fish/Dead/green/g4.png",
-    ],
-    [
       "../img/2_Enemy/2_Jelly_fish/Dead/Lila/L1.png",
       "../img/2_Enemy/2_Jelly_fish/Dead/Lila/L2.png",
       "../img/2_Enemy/2_Jelly_fish/Dead/Lila/L3.png",
       "../img/2_Enemy/2_Jelly_fish/Dead/Lila/L4.png",
-    ],
-    [
-      "../img/2_Enemy/2_Jelly_fish/Dead/Pink/P1.png",
-      "../img/2_Enemy/2_Jelly_fish/Dead/Pink/P2.png",
-      "../img/2_Enemy/2_Jelly_fish/Dead/Pink/P3.png",
-      "../img/2_Enemy/2_Jelly_fish/Dead/Pink/P4.png",
     ],
     [
       "../img/2_Enemy/2_Jelly_fish/Dead/Yellow/y1.png",
@@ -63,12 +51,26 @@ class Jelly extends Sprite {
       "../img/2_Enemy/2_Jelly_fish/Dead/Yellow/y3.png",
       "../img/2_Enemy/2_Jelly_fish/Dead/Yellow/y4.png",
     ],
+    [
+      "../img/2_Enemy/2_Jelly_fish/Dead/green/g1.png",
+      "../img/2_Enemy/2_Jelly_fish/Dead/green/g2.png",
+      "../img/2_Enemy/2_Jelly_fish/Dead/green/g3.png",
+      "../img/2_Enemy/2_Jelly_fish/Dead/green/g4.png",
+    ],
+
+    [
+      "../img/2_Enemy/2_Jelly_fish/Dead/Pink/P1.png",
+      "../img/2_Enemy/2_Jelly_fish/Dead/Pink/P2.png",
+      "../img/2_Enemy/2_Jelly_fish/Dead/Pink/P3.png",
+      "../img/2_Enemy/2_Jelly_fish/Dead/Pink/P4.png",
+    ],
   ];
 
   constructor() {
     super().loadImage(this.IMAGES_MOVING[this.variant][0]);
     this.width = this.height * this.ar;
     this.loadImages(this.IMAGES_MOVING[this.variant]);
+    this.loadImages(this.IMAGES_DEAD[this.variant]);
     this.speed = 0.5 + Math.random() * 0.5;
     this.speed_x = this.speed;
     this.speed_y = this.speed;
@@ -77,10 +79,14 @@ class Jelly extends Sprite {
 
   animate() {
     setInterval(() => {
-      this.moveLeft();
+      if (!this.dead) {
+        this.moveLeft();
+      } else this.moveUp();
     }, 1000 / 60);
     setInterval(() => {
-      this.playAnimation(this.IMAGES_MOVING[this.variant]);
+      if (!this.dead) {
+        this.playAnimation(this.IMAGES_MOVING[this.variant]);
+      } else this.playAnimation(this.IMAGES_DEAD[this.variant]);
     }, 150);
   }
 }

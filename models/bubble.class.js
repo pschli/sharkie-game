@@ -6,12 +6,22 @@ class Bubble extends Sprite {
   collision_inset_left = 0;
   collision_inset_right = 0;
   ar = 1;
-  speed_x = 20;
-  waterResistance = 0.7;
+  speed_x = 12;
+  waterResistance = 0.3;
   speed_y = 0;
+  hitInterval;
+
+  IMAGES_POP = [
+    "../img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop1.png",
+    "../img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop2.png",
+    "../img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop3.png",
+    "../img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop4.png",
+    "../img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop5.png",
+  ];
 
   constructor(x, y, otherDirection) {
     super().loadImage("../img/1_Sharkie/4_Attack/Bubble_trap/Bubble.png");
+    this.loadImages(this.IMAGES_POP);
     this.otherDirection = otherDirection;
     this.height = 80;
     this.width = this.height * this.ar;
@@ -24,16 +34,43 @@ class Bubble extends Sprite {
   }
 
   hitTarget() {
-    setInterval(() => {
+    this.hitInterval = setInterval(() => {
       world.level.enemies.forEach((enemy) => {
         if (this.isColliding(enemy)) {
-          console.log("bubble hit:", enemy);
+          if (enemy.constructor.name === "Pufferfish") this.popBubble();
+          else if (enemy.constructor.name === "Jelly")
+            this.bubbleTrapEnemy(enemy);
         }
       });
-    }, 200);
+    }, 30);
   }
 
-  isInBubble(sprite) {}
+  popBubble() {
+    clearInterval(this.hitInterval);
+    this.speed_x = 0;
+    this.currentImage = 0;
+    setInterval(() => {
+      this.playAnimation(this.IMAGES_POP);
+      if (this.currentImage === this.IMAGES_POP.length - 1)
+        this.terminateBubble();
+    }, 20);
+    console.log("bubble popped");
+  }
+
+  bubbleTrapEnemy(enemy) {
+    clearInterval(this.hitInterval);
+    this.terminateBubble();
+    enemy.dead = true;
+    console.log("enemy trapped");
+  }
+
+  terminateBubble() {
+    let index = world.bubbles.findIndex((bubble) => {
+      this === bubble;
+    });
+    let trashBubble = world.bubbles.splice(index, 1);
+    trashBubble = null;
+  }
 
   animate() {
     setInterval(() => {
@@ -43,11 +80,11 @@ class Bubble extends Sprite {
         this.moveLeft();
       }
       this.speed_x = this.speed_x - this.waterResistance;
-      if (this.speed_x < 3) {
+      if (this.speed_x < 0.5) {
         this.speed_x = 0;
-        this.speed_y = 2;
+        this.speed_y = 1;
         this.waterResistance = 0.1;
-        if (this.speed_x < 0.5) this.waterResistance = 0;
+        if (this.speed_x < 0.1) this.waterResistance = 0;
         this.moveUp();
       }
     }, 1000 / 60);
