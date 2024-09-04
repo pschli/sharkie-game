@@ -10,6 +10,7 @@ class Character extends Sprite {
   speed_x = this.speed;
   speed_y = this.speed;
   health = 100;
+  poison = 0;
   lastHit = 0;
   state = "normal";
   death = "none";
@@ -278,5 +279,10 @@ class Character extends Sprite {
   immuneToDamage() {
     if (this.lastHit != 0) return Date.now() - this.lastHit < 1000;
     else return false;
+  }
+
+  collectBottle() {
+    this.poison += 10;
+    this.world.gameValues[1].setValue(this.poison);
   }
 }

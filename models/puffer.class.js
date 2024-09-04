@@ -1,6 +1,6 @@
 class Pufferfish extends Sprite {
-  x = 720 + Math.floor(Math.random() * 100);
-  y = 100;
+  x = 720;
+  y = 100 + Math.floor(Math.random() * 300);
   collision_inset_top = 5;
   collision_inset_bottom = 10;
   collision_inset_left = 15;
@@ -91,8 +91,9 @@ class Pufferfish extends Sprite {
     ["../img/2_Enemy/1_Puffer_fish_(3_color_options)/4_DIE/3.png"],
   ];
 
-  constructor(image) {
+  constructor(distance = 1) {
     super().loadImage(this.IMAGES_MOVING[this.variant][0]);
+    this.x += distance;
     this.height = 100;
     this.width = this.height * this.ar;
     this.loadImages(this.IMAGES_MOVING[this.variant]);

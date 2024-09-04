@@ -73,6 +73,7 @@ class World {
     this.ctx.translate(this.offset, 0);
     this.addObjectsToMap(this.level.foreground);
     this.addObjectsToMap(this.level.enemies);
+    this.addObjectsToMap(this.level.collectables);
     this.addToMap(this.character);
     this.addObjectsToMap(this.bubbles);
     this.ctx.translate(-this.offset, 0);

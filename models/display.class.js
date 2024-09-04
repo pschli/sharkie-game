@@ -24,6 +24,7 @@ class Display {
   }
 
   setValue(value) {
+    if ((value) => 90) this.img = this.imageCache[this.IMAGES[5]];
     if (value < 90) this.img = this.imageCache[this.IMAGES[4]];
     if (value < 70) this.img = this.imageCache[this.IMAGES[3]];
     if (value < 50) this.img = this.imageCache[this.IMAGES[2]];

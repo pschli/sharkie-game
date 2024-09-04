@@ -1,30 +1,7 @@
 class Sprite extends Display {
-  /*x = 100;
-  y = 300;
-  img;
-  ar;
-  imageCache = {};
-  currentImage = 0; */
   speed_x = 0.15;
   speed_y = 0.15;
   otherDirection = false;
-
-  /* loadImage(path) {
-    this.img = new Image();
-    this.img.src = path;
-  }
-
-  loadImages(arr) {
-    arr.forEach((path) => {
-      let img = new Image();
-      img.src = path;
-      this.imageCache[path] = img;
-    });
-  }
-
-  drawSprite(ctx) {
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-  }
 
   /*
   drawFrame(ctx) {

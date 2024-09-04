@@ -10,6 +10,7 @@ class Life extends Display {
     "img/4_ Marcadores/orange/40_copia_l.png",
     "img/4_ Marcadores/orange/60_copia_l.png",
     "img/4_ Marcadores/orange/80_copia_l.png",
+    "img/4_ Marcadores/orange/100_copia_l.png",
   ];
 
   constructor() {

@@ -5,15 +5,16 @@ class Poison extends Display {
   height = 50;
 
   IMAGES = [
-    "img/4_ Marcadores/orange/0_copia_p.png",
-    "img/4_ Marcadores/orange/20_copia_p.png",
-    "img/4_ Marcadores/orange/40_copia_p.png",
-    "img/4_ Marcadores/orange/60_copia_p.png",
-    "img/4_ Marcadores/orange/80_copia_p.png",
+    "img/4_ Marcadores/green/poisoned_bubbles/0_copi.png",
+    "img/4_ Marcadores/green/poisoned_bubbles/20_copi.png",
+    "img/4_ Marcadores/green/poisoned_bubbles/40_copi.png",
+    "img/4_ Marcadores/green/poisoned_bubbles/60_copi.png",
+    "img/4_ Marcadores/green/poisoned_bubbles/80_copi.png",
+    "img/4_ Marcadores/green/poisoned_bubbles/100_copi.png",
   ];
 
   constructor() {
-    super().loadImage("img/4_ Marcadores/orange/100_copia_l.png");
+    super().loadImage("img/4_ Marcadores/green/poisoned_bubbles/0_copi.png");
     this.loadImages(this.IMAGES);
     this.setValue(0);
   }

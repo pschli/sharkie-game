@@ -1,6 +1,6 @@
 class Jelly extends Sprite {
-  x = 720 + Math.floor(Math.random() * 200);
-  y = 300;
+  x = 720;
+  y = 100 + Math.floor(Math.random() * 300);
   height = 100;
   collision_inset_top = 10;
   collision_inset_bottom = 20;
@@ -66,8 +66,9 @@ class Jelly extends Sprite {
     ],
   ];
 
-  constructor() {
+  constructor(distance) {
     super().loadImage(this.IMAGES_MOVING[this.variant][0]);
+    this.x += distance;
     this.width = this.height * this.ar;
     this.loadImages(this.IMAGES_MOVING[this.variant]);
     this.loadImages(this.IMAGES_DEAD[this.variant]);
