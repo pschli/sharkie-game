@@ -1,6 +1,6 @@
 class World {
   character = new Character();
-  gameValues = [new Life(), new Poison()];
+  gameValues = [new Life(), new Poison(), new Money()];
   level = level1;
   bubbles = [];
   ctx;
@@ -12,6 +12,8 @@ class World {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
+    this.ctx.font = "50px LuckiestGuy";
+    this.ctx.textAlign = "end";
     this.draw();
     this.setWorld();
     this.checkCollisions();
@@ -81,6 +83,7 @@ class World {
 
   drawValues() {
     this.addObjectsToMap(this.gameValues);
+    this.ctx.fillText(`${this.character.coins}`, 870, 63);
   }
 
   addToMap(sprite) {

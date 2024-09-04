@@ -124,8 +124,18 @@ class Pufferfish extends Sprite {
 
   animate() {
     setInterval(() => {
-      if (!this.dead) this.moveLeft();
-      else {
+      if (!this.dead) {
+        if (this.x + 200 > world.character.x && !this.reversed) this.moveLeft();
+        else if (this.x - 200 > world.character.x && this.reversed) {
+          this.otherDirection = false;
+          this.reversed = false;
+          this.moveLeft();
+        } else {
+          this.otherDirection = true;
+          this.reversed = true;
+          this.moveRight();
+        }
+      } else {
         setTimeout(() => {
           this.speed_x = 5;
           this.speed_y = 5;

@@ -1,6 +1,6 @@
 class Jelly extends Sprite {
   x = 720;
-  y = 100 + Math.floor(Math.random() * 300);
+  y = 50 + Math.floor(Math.random() * 300);
   height = 100;
   collision_inset_top = 10;
   collision_inset_bottom = 20;
@@ -10,6 +10,7 @@ class Jelly extends Sprite {
   currentImage = 0;
   ar = 0.7;
   dead = false;
+  reversed = false;
 
   IMAGES_MOVING = [
     [
@@ -81,7 +82,14 @@ class Jelly extends Sprite {
   animate() {
     setInterval(() => {
       if (!this.dead) {
-        this.moveLeft();
+        if (this.x + 300 > world.character.x && !this.reversed) this.moveLeft();
+        else if (this.x - 300 > world.character.x && this.reversed) {
+          this.reversed = false;
+          this.moveLeft();
+        } else {
+          this.reversed = true;
+          this.moveRight();
+        }
       } else this.moveUp();
     }, 1000 / 60);
     setInterval(() => {

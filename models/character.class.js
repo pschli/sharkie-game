@@ -11,6 +11,7 @@ class Character extends Sprite {
   speed_y = this.speed;
   health = 100;
   poison = 0;
+  coins = 0;
   lastHit = 0;
   state = "normal";
   death = "none";
@@ -284,5 +285,9 @@ class Character extends Sprite {
   collectBottle() {
     this.poison += 10;
     this.world.gameValues[1].setValue(this.poison);
+  }
+
+  collectCoin() {
+    this.coins += 1;
   }
 }
