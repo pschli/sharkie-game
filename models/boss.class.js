@@ -1,5 +1,5 @@
 class Boss extends Sprite {
-  x = 1500;
+  x = 6500;
   y = 0;
   collision_inset_top = 240;
   collision_inset_bottom = 320;
@@ -14,7 +14,6 @@ class Boss extends Sprite {
   speed_x = 0;
   speed_y = 1.5;
   health = 100;
-  dead = false;
   reversed = false;
   introPlayed = false;
   animationInterval;
@@ -101,7 +100,14 @@ class Boss extends Sprite {
   }
 
   showDeath() {
-    console.log("Death!");
+    this.playAnimation(this.IMAGES_DEAD);
+    if (this.currentImage >= 5) {
+      this.speed_x = 0;
+      this.speed_y = 1.5;
+      clearInterval(this.animationInterval);
+      this.loadImage("../img/2_Enemy/3_Final_Enemy/Dead/boss_dead10.png");
+      this.movement();
+    }
   }
 
   showHurt() {
@@ -137,13 +143,12 @@ class Boss extends Sprite {
       world.level.level_end_x += 1200;
       this.movement();
       this.speed_x = 0.5;
-      console.log("intro");
     }
   }
 
   movement() {
     setInterval(() => {
-      if (!this.dead) {
+      if (!this.death) {
         if (this.x + 500 > world.character.x && !this.reversed) this.moveLeft();
         else if (this.x - 500 > world.character.x && this.reversed) {
           this.reversed = false;
@@ -156,20 +161,25 @@ class Boss extends Sprite {
         }
         if (this.y > world.character.y - 100) this.moveUp();
         else if (this.y < world.character.y - 120) this.moveDown();
-      }
+      } else if (this.y > -400) this.moveUp();
     }, 1000 / 60);
   }
 
   takeDamage() {
     this.health -= 10;
     console.log("Boss at:", this.health);
+    if (this.health <= 0) {
+      this.death = true;
+      this.speed_x = 0;
+      this.speed_y = 1.5;
+      this.currentImage = 0;
+    }
   }
 
   engage() {
     this.engaged = true;
     this.currentImage = 0;
     this.animate();
-    console.log("Boss engaged");
     world.character.poisonBubbles = true;
   }
 }

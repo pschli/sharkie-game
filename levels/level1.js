@@ -100,12 +100,37 @@ function createEnemies(times) {
   return enemies;
 }
 
+function createPoisonBottle(distance) {
+  let bottle = new Bottle(distance);
+  return bottle;
+}
+
+function createCoin(distance) {
+  let coin = new Coin(distance);
+  return coin;
+}
+
+function createCollectables() {
+  let collectables = [];
+  for (i = 0; i <= 50; i++) {
+    collectables.push(
+      createCoin((i % 10) * 500 + Math.floor(Math.random() * 1000) + 100)
+    );
+  }
+  for (i = 0; i <= 10; i++) {
+    collectables.push(
+      createPoisonBottle((i % 10) * 700 + Math.floor(Math.random() * 1000))
+    );
+  }
+  return collectables;
+}
+
 function initLevels(canvas) {
   level1 = new Level(
     createBackground(5),
     createMiddleground(5),
     createForeground(5),
     createEnemies(0),
-    [new Bottle(400), new Coin(600)]
+    createCollectables()
   );
 }

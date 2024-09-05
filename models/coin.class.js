@@ -1,6 +1,6 @@
 class Coin extends Sprite {
-  x = 300;
-  y = 200;
+  x = 100;
+  y = 50 + Math.floor(Math.random() * 400);
   width = 50;
   height = 60;
   collision_inset_top = 0;
