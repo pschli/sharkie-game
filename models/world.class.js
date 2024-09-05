@@ -65,6 +65,14 @@ class World {
     }, 50);
   }
 
+  checkEndbossCollisions() {
+    setInterval(() => {
+      if (this.character.isColliding(this.endBoss)) {
+        this.character.getHitByEnemy(this.endBoss);
+      }
+    }, 50);
+  }
+
   checkEndArea() {
     let endInterval = setInterval(() => {
       if (
@@ -73,6 +81,7 @@ class World {
         this.endBoss.engaged === false
       ) {
         this.endBoss.engage();
+        this.checkEndbossCollisions();
         this.endReached = true;
       }
     }, 500);
@@ -123,7 +132,7 @@ class World {
       this.flipImage(sprite);
     }
     sprite.drawSprite(this.ctx);
-    //   sprite.drawFrame(this.ctx);
+    //  sprite.drawFrame(this.ctx);
 
     if (sprite.otherDirection) {
       this.flipImageBack(sprite);

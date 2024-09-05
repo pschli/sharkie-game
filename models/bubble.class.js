@@ -5,6 +5,7 @@ class Bubble extends Sprite {
   collision_inset_bottom = 0;
   collision_inset_left = 0;
   collision_inset_right = 0;
+  poison = false;
   ar = 1;
   speed_x = 12;
   waterResistance = 0.3;
@@ -23,6 +24,14 @@ class Bubble extends Sprite {
 
   constructor(x, y, otherDirection) {
     super().loadImage("../img/1_Sharkie/4_Attack/Bubble_trap/Bubble.png");
+    if (world.character.poisonBubbles && world.character.poison > 0) {
+      this.loadImage(
+        "../img/1_Sharkie/4_Attack/Bubble_trap/Poisoned_Bubble_(for_whale).png"
+      );
+      this.poison = true;
+      world.character.poison -= 5;
+      world.gameValues[1].setValue(world.character.poison);
+    }
     this.loadImages(this.IMAGES_POP);
     this.otherDirection = otherDirection;
     this.height = 80;
@@ -45,6 +54,16 @@ class Bubble extends Sprite {
             this.bubbleTrapEnemy(enemy);
         }
       });
+      if (this.isColliding(world.endBoss)) {
+        if (this.poison) {
+          world.endBoss.takeDamage();
+          this.y = -300;
+          world.endBoss.currentImage = 0;
+          world.endBoss.speed_x = 0;
+          world.endBoss.speed_y = 0;
+          world.endBoss.state = "poisoned";
+        } else this.popBubble();
+      }
     }, 30);
   }
 

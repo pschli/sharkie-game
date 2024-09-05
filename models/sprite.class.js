@@ -2,14 +2,9 @@ class Sprite extends Display {
   speed_x = 0.15;
   speed_y = 0.15;
   otherDirection = false;
-
   /*
   drawFrame(ctx) {
-    if (
-      this instanceof Character ||
-      this instanceof Jelly ||
-      this instanceof Pufferfish
-    ) {
+    if (this instanceof Character || this instanceof Boss) {
       ctx.beginPath();
       ctx.lineWidth = "5";
       ctx.strokeStyle = "green";
@@ -21,7 +16,7 @@ class Sprite extends Display {
       );
       ctx.stroke();
     }
-  } */
+  }*/
 
   isColliding(sprite) {
     return (

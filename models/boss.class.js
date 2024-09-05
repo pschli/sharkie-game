@@ -1,13 +1,18 @@
 class Boss extends Sprite {
   x = 1500;
   y = 0;
+  collision_inset_top = 240;
+  collision_inset_bottom = 320;
+  collision_inset_left = 35;
+  collision_inset_right = 80;
   width = 500;
   height = 500;
   engaged = false;
   death = false;
   state = "normal";
   currentImage = 0;
-  speed = 0;
+  speed_x = 0;
+  speed_y = 1.5;
   health = 100;
   dead = false;
   reversed = false;
@@ -100,12 +105,17 @@ class Boss extends Sprite {
   }
 
   showHurt() {
-    console.log("Hurt!");
+    this.playAnimation(this.IMAGES_HURT);
+    if (this.currentImage >= 5) {
+      this.state = "normal";
+      this.speed_x = 0.5;
+      this.speed_y = 1.5;
+    }
   }
 
   showAttack() {
     this.playAnimation(this.IMAGES_ATTACK);
-    if (this.currentImage >= 5) {
+    if (this.currentImage >= 3) {
       this.state = "normal";
       this.speed_x = 0.5;
     }
@@ -144,8 +154,15 @@ class Boss extends Sprite {
           this.otherDirection = true;
           this.moveRight();
         }
+        if (this.y > world.character.y - 100) this.moveUp();
+        else if (this.y < world.character.y - 120) this.moveDown();
       }
     }, 1000 / 60);
+  }
+
+  takeDamage() {
+    this.health -= 10;
+    console.log("Boss at:", this.health);
   }
 
   engage() {
@@ -153,5 +170,6 @@ class Boss extends Sprite {
     this.currentImage = 0;
     this.animate();
     console.log("Boss engaged");
+    world.character.poisonBubbles = true;
   }
 }

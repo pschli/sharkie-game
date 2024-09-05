@@ -11,6 +11,7 @@ class Character extends Sprite {
   speed_y = this.speed;
   health = 100;
   poison = 0;
+  poisonBubbles = false;
   coins = 0;
   lastHit = 0;
   state = "normal";
@@ -292,20 +293,25 @@ class Character extends Sprite {
         if (this.world.keyboard.ATTACK) {
           this.slapSound.play();
           enemy.dead = true;
-        } else this.takeDamage("poisoned", enemy);
+        } else this.takeDamage("poisoned", 1);
       } else if (enemy.constructor.name === "Jelly") this.hitByJelly(enemy);
+      else if (enemy.constructor.name === "Boss") this.hitByBoss(enemy);
     }
   }
 
-  hitByJelly(enemy) {
-    if (enemy.variant < 2) this.takeDamage("poisoned", enemy);
-    else this.takeDamage("shocked", enemy);
+  hitByBoss() {
+    this.takeDamage("poisoned", 3);
   }
 
-  takeDamage(damageType, enemy) {
+  hitByJelly(enemy) {
+    if (enemy.variant < 2) this.takeDamage("poisoned", 1);
+    else this.takeDamage("shocked", 2);
+  }
+
+  takeDamage(damageType, damageStrength) {
     if (!this.immuneToDamage()) {
       this.painSound.play();
-      this.health -= 10;
+      this.health -= 10 * damageStrength;
       this.world.gameValues[0].setValue(this.health);
       if (this.health <= 0) {
         this.death = damageType;
@@ -325,6 +331,7 @@ class Character extends Sprite {
   collectBottle() {
     this.poison += 10;
     this.world.gameValues[1].setValue(this.poison);
+    console.log(this.poison);
   }
 
   collectCoin() {
