@@ -2,7 +2,9 @@ class World {
   character = new Character();
   gameValues = [new Life(), new Poison(), new Money()];
   level = level1;
+  endReached = false;
   bubbles = [];
+  endBoss = new Boss();
   music = new Audio("audio/mixkit-epical-drums-05-680.mp3");
   noMusic;
   ctx;
@@ -22,6 +24,7 @@ class World {
     this.setWorld();
     this.checkCollisions();
     this.checkObsolete();
+    this.checkEndArea();
     this.playMusic();
   }
 
@@ -62,6 +65,19 @@ class World {
     }, 50);
   }
 
+  checkEndArea() {
+    let endInterval = setInterval(() => {
+      if (
+        this.endReached === false &&
+        this.character.x > this.level.level_end_x - 50 &&
+        this.endBoss.engaged === false
+      ) {
+        this.endBoss.engage();
+        this.endReached = true;
+      }
+    }, 500);
+  }
+
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.drawBackground();
@@ -92,6 +108,7 @@ class World {
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.collectables);
     this.addToMap(this.character);
+    this.addToMap(this.endBoss);
     this.addObjectsToMap(this.bubbles);
     this.ctx.translate(-this.offset, 0);
   }

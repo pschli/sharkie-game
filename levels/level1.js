@@ -105,7 +105,7 @@ function initLevels(canvas) {
     createBackground(5),
     createMiddleground(5),
     createForeground(5),
-    createEnemies(20),
+    createEnemies(0),
     [new Bottle(400), new Coin(600)]
   );
 }

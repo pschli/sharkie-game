@@ -4,7 +4,7 @@ class Level {
   foreground;
   enemies;
   collectables;
-  level_end_x = 8000;
+  level_end_x = 1000;
 
   constructor(background, middleground, foreground, enemies, collectables) {
     this.background = background;

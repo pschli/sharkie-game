@@ -14,10 +14,19 @@ class Character extends Sprite {
   coins = 0;
   lastHit = 0;
   state = "normal";
+  isIdle = false;
+  idleStart;
+  longIdle = 0;
   death = "none";
-  painSound = new Audio("../audio/robotic-male-grunting-in-pain-99420.mp3");
+  painSound = new Audio("../audio/mixkit-ow-exclamation-of-pain-2204.wav");
   coinSound = new Audio("../audio/coin-recieved-230517.mp3");
   slapSound = new Audio("../audio/punch-41105.mp3");
+  moveSound = new Audio("../audio/mixkit-fish-flapping-2457.mp3");
+  snoreSound = new Audio("../audio/mixkit-man-strong-snore-2478.wav");
+  shockDeathSound = new Audio(
+    "../audio/mixkit-electricity-static-power-up-2600.wav"
+  );
+  poisonDeathSound = new Audio("../audio/man-death-scream-186763.mp3");
   world;
 
   IMAGES_MOVING = [
@@ -138,6 +147,7 @@ class Character extends Sprite {
     this.width = this.height * this.ar;
     this.loadImages(this.IMAGES_MOVING);
     this.loadImages(this.IMAGES_IDLE);
+    this.loadImages(this.IMAGES_LONG_IDLE);
     this.loadImages(this.IMAGES_ATTACK_FIN);
     this.loadImages(this.IMAGES_ATTACK_BUBBLE);
     this.loadImages(this.IMAGES_POISONED);
@@ -161,7 +171,12 @@ class Character extends Sprite {
       if (this.world.keyboard.UP && this.y > -100) this.moveUp();
       if (this.world.keyboard.DOWN && this.y < this.world.canvas.height - 300)
         this.moveDown();
-    }
+    } else if (
+      this.death === "stay shocked" &&
+      this.y < this.world.canvas.height - 300
+    )
+      this.moveDown();
+    else if (this.death === "stay poisoned" && this.y > -100) this.moveUp();
   }
 
   animate() {
@@ -179,16 +194,33 @@ class Character extends Sprite {
       this.showDeath();
     } else if (this.state === "poisoned") {
       this.showPoisoned();
+      this.isIdle = false;
     } else if (this.state === "shocked") {
       this.showShocked();
+      this.isIdle = false;
     } else if (this.world.keyboard.ATTACK) {
       this.showFinAttack();
+      this.isIdle = false;
     } else if (this.world.keyboard.BUBBLE) {
       this.showBubbleAttack();
+      this.isIdle = false;
     } else if (this.characterMoves()) {
       this.playAnimation(this.IMAGES_MOVING);
+      this.moveSound.play();
+      this.isIdle = false;
+    } else if (this.isIdle && Date.now() - this.idleStart > 15000) {
+      this.snoreSound.play();
+      if (this.longIdle > 10) {
+        this.currentImage = 8;
+        this.longIdle = 6;
+      }
+      this.playAnimation(this.IMAGES_LONG_IDLE);
+      this.longIdle++;
     } else {
       this.playAnimation(this.IMAGES_IDLE);
+      if (!this.isIdle) this.idleStart = Date.now();
+      this.isIdle = true;
+      this.longIdle = 0;
     }
   }
 
@@ -217,11 +249,13 @@ class Character extends Sprite {
 
   showDeath() {
     if (this.death === "shocked") {
+      this.shockDeathSound.play();
       this.playAnimation(this.IMAGES_DEAD_SHOCK);
       if (this.currentImage === this.IMAGES_DEAD_SHOCK.length) {
         this.death = "stay shocked";
       }
     } else if (this.death === "poisoned") {
+      this.poisonDeathSound.play();
       this.playAnimation(this.IMAGES_DEAD_POISON);
       if (this.currentImage === this.IMAGES_DEAD_POISON.length) {
         this.death = "stay poisoned";
