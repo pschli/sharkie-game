@@ -10,6 +10,8 @@ class Bubble extends Sprite {
   waterResistance = 0.3;
   speed_y = 0;
   hitInterval;
+  shootBubble = new Audio("../audio/mixkit-water-bubble-1317.wav");
+  popBubbleSound = new Audio("audio/bubble-pop-100784.mp3");
 
   IMAGES_POP = [
     "../img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop1.png",
@@ -29,6 +31,7 @@ class Bubble extends Sprite {
       this.x = x + 230;
     } else this.x = x - 50;
     this.y = y + 150;
+    this.shootBubble.play();
     this.animate();
     this.hitTarget();
   }
@@ -49,6 +52,7 @@ class Bubble extends Sprite {
     clearInterval(this.hitInterval);
     this.speed_x = 0;
     this.currentImage = 0;
+    this.popBubbleSound.play();
     setInterval(() => {
       this.playAnimation(this.IMAGES_POP);
       if (this.currentImage === this.IMAGES_POP.length - 1) this.y = -300;
@@ -59,13 +63,6 @@ class Bubble extends Sprite {
     clearInterval(this.hitInterval);
     this.y = -300;
     enemy.dead = true;
-  }
-
-  terminateBubble() {
-    let index = world.bubbles.findIndex((bubble) => {
-      this === bubble;
-    });
-    world.bubbles.splice(index, 1);
   }
 
   animate() {

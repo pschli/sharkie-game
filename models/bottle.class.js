@@ -8,6 +8,7 @@ class Bottle extends Sprite {
   collision_inset_left = 0;
   collision_inset_right = 0;
   checkInterval;
+  animationInterval;
 
   IMAGES = [
     "img/4_ Marcadores/poison/animada/1.png",
@@ -29,7 +30,7 @@ class Bottle extends Sprite {
   }
 
   animate() {
-    setInterval(() => {
+    this.animationInterval = setInterval(() => {
       this.playAnimation(this.IMAGES);
     }, 200);
   }
@@ -45,9 +46,7 @@ class Bottle extends Sprite {
 
   removeBottle() {
     clearInterval(this.checkInterval);
-    let index = world.level.collectables.findIndex((bottle) => {
-      this === bottle;
-    });
-    world.level.collectables.splice(index, 1);
+    clearInterval(this.animationInterval);
+    this.y = -300;
   }
 }

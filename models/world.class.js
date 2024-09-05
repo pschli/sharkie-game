@@ -3,21 +3,30 @@ class World {
   gameValues = [new Life(), new Poison(), new Money()];
   level = level1;
   bubbles = [];
+  music = new Audio("audio/mixkit-epical-drums-05-680.mp3");
+  noMusic;
   ctx;
   canvas;
   keyboard;
   offset = 0;
 
-  constructor(canvas, keyboard) {
+  constructor(canvas, keyboard, noMusic = false) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.ctx.font = "50px LuckiestGuy";
     this.ctx.textAlign = "end";
+    this.noMusic = noMusic;
+    this.music.loop = true;
     this.draw();
     this.setWorld();
     this.checkCollisions();
     this.checkObsolete();
+    this.playMusic();
+  }
+
+  playMusic() {
+    if (!this.noMusic) this.music.play();
   }
 
   checkObsolete() {
@@ -32,6 +41,12 @@ class World {
         if (this.bubbles[i].y < -200) {
           this.bubbles.splice(i, 1);
           console.log("bubble deleted");
+        }
+      }
+      for (let i = 0; i < this.level.collectables.length; i++) {
+        if (this.level.collectables[i].y < -200) {
+          this.level.collectables.splice(i, 1);
+          console.log("collectable deleted");
         }
       }
     }, 500);

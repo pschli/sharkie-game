@@ -15,6 +15,9 @@ class Character extends Sprite {
   lastHit = 0;
   state = "normal";
   death = "none";
+  painSound = new Audio("../audio/robotic-male-grunting-in-pain-99420.mp3");
+  coinSound = new Audio("../audio/coin-recieved-230517.mp3");
+  slapSound = new Audio("../audio/punch-41105.mp3");
   world;
 
   IMAGES_MOVING = [
@@ -252,8 +255,10 @@ class Character extends Sprite {
   getHitByEnemy(enemy) {
     if (!enemy.dead && this.death === "none") {
       if (enemy.constructor.name === "Pufferfish") {
-        if (this.world.keyboard.ATTACK) enemy.dead = true;
-        else this.takeDamage("poisoned", enemy);
+        if (this.world.keyboard.ATTACK) {
+          this.slapSound.play();
+          enemy.dead = true;
+        } else this.takeDamage("poisoned", enemy);
       } else if (enemy.constructor.name === "Jelly") this.hitByJelly(enemy);
     }
   }
@@ -265,6 +270,7 @@ class Character extends Sprite {
 
   takeDamage(damageType, enemy) {
     if (!this.immuneToDamage()) {
+      this.painSound.play();
       this.health -= 10;
       this.world.gameValues[0].setValue(this.health);
       if (this.health <= 0) {
@@ -289,5 +295,6 @@ class Character extends Sprite {
 
   collectCoin() {
     this.coins += 1;
+    this.coinSound.play();
   }
 }
