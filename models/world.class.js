@@ -90,7 +90,7 @@ class World {
     this.drawForeground();
     this.drawValues();
     let self = this;
-    requestAnimationFrame(function () {
+    animationFrame = requestAnimationFrame(function () {
       self.draw();
     });
   }
