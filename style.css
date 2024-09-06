@@ -10,11 +10,21 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #404fae;
+}
+
+button {
+  cursor: pointer;
 }
 
 h1 {
+  font-size: 64px;
+  display: block;
   text-align: center;
   font-family: "LuckiestGuy";
+  color: cyan;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #cc33ff;
 }
 
 h3 {
@@ -64,6 +74,22 @@ canvas {
   transform: translate(-50%);
   top: 64px;
   z-index: 10;
+}
+
+.notice {
+  display: none;
+}
+
+@media (pointer: coarse) and (orientation: portrait) {
+  .notice {
+    display: block;
+  }
+}
+
+@media (pointer: coarse) and (orientation: landscape) {
+  h1 {
+    display: none;
+  }
 }
 
 @media (max-width: 960px) {

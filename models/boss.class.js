@@ -108,6 +108,9 @@ class Boss extends Sprite {
       clearInterval(this.animationInterval);
       this.loadImage("../img/2_Enemy/3_Final_Enemy/Dead/boss_dead10.png");
       this.movement();
+      setTimeout(() => {
+        gameOverHelper(true);
+      }, 2000);
     }
   }
 
@@ -169,7 +172,6 @@ class Boss extends Sprite {
 
   takeDamage() {
     this.health -= 10;
-    console.log("Boss at:", this.health);
     if (this.health <= 0) {
       this.death = true;
       this.speed_x = 0;

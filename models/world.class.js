@@ -29,19 +29,16 @@ class World {
       for (let i = 0; i < this.level.enemies.length; i++) {
         if (this.level.enemies[i].y < -200) {
           this.level.enemies.splice(i, 1);
-          console.log("enemy deleted");
         }
       }
       for (let i = 0; i < this.bubbles.length; i++) {
         if (this.bubbles[i].y < -200) {
           this.bubbles.splice(i, 1);
-          console.log("bubble deleted");
         }
       }
       for (let i = 0; i < this.level.collectables.length; i++) {
         if (this.level.collectables[i].y < -200) {
           this.level.collectables.splice(i, 1);
-          console.log("collectable deleted");
         }
       }
     }, 500);
