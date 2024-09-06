@@ -30,7 +30,19 @@
     <h1>Sharkie</h1>
     <div class="gamecontainer">
       <canvas id="canvas" height="540" width="960"></canvas>
-      <div id="overlay" class="overlay"></div>
+      <div id="overlay-container" class="overlay">
+        <div id="overlay" class="overlay"></div>
+        <div id="hud" class="hud">
+          <div class="hudelements"></div>
+          <div class="hudelements bottomhud">
+            <div id="movebox" class="movement"></div>
+            <div class="shoot">
+              <div id="bubbles" class="attack"></div>
+              <div id="fin" class="attack"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

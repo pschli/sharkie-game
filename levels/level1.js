@@ -130,7 +130,7 @@ function initLevels(canvas) {
     createBackground(5),
     createMiddleground(5),
     createForeground(5),
-    createEnemies(0),
+    createEnemies(20),
     createCollectables()
   );
 }

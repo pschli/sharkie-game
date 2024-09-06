@@ -6,6 +6,8 @@ let music = new Music(true);
 let allIntervals = [];
 let animationFrame;
 let overlay;
+let movebox;
+let hud;
 let startImg = new Image();
 startImg.src = "../img/6_Botones/startsplash.png";
 let winImg = new Image();
@@ -17,11 +19,15 @@ function init() {
   canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
   overlay = document.getElementById("overlay");
+  hud = document.getElementById("hud");
+  activateHud();
   showSplashStartHelper();
 }
 
 function startGame() {
   window.removeEventListener("keydown", startListener);
+  hud.style = "";
+  hud.style.zIndex = "20";
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   overlay.innerHTML = "";
   toggleGameKeyListeners("on");
@@ -30,6 +36,8 @@ function startGame() {
 }
 
 function gameOverHelper(win) {
+  hud.style = "";
+  hud.style.visibility = "hidden";
   toggleGameKeyListeners("off");
   gameOver(win);
   setTimeout(() => {
@@ -52,6 +60,7 @@ function gameOver(win) {
 }
 
 function showSplashStartHelper() {
+  hud.style.visibility = "hidden";
   showSplashStart();
   setTimeout(() => {
     showSplashStart();
@@ -115,6 +124,61 @@ function handleKeyDownWrapper(e) {
 
 function handleKeyUpWrapper(e) {
   handleKeyUp(e);
+}
+
+function activateHud() {
+  movebox = document.getElementById("movebox");
+  movebox.addEventListener("touchstart", handleStart);
+  movebox.addEventListener("touchend", handleEnd);
+  movebox.addEventListener("touchmove", handleMove);
+}
+
+function handleStart(event) {
+  event.preventDefault();
+  let touchX = event.changedTouches[0].screenX - 295;
+  let touchY = event.changedTouches[0].screenY - 510;
+  if (touchY < -20) keyboard.UP = true;
+  if (touchY > 20) keyboard.DOWN = true;
+  if (touchX < -20) keyboard.LEFT = true;
+  if (touchX > 20) keyboard.RIGHT = true;
+}
+
+function handleEnd(event) {
+  event.preventDefault();
+  keyboard.UP = false;
+  keyboard.DOWN = false;
+  keyboard.LEFT = false;
+  keyboard.RIGHT = false;
+}
+
+function handleMove(event) {
+  event.preventDefault();
+  let touchX = event.changedTouches[0].screenX - 295;
+  let touchY = event.changedTouches[0].screenY - 510;
+  if (touchY < -20) {
+    keyboard.UP = true;
+    keyboard.DOWN = false;
+  }
+  if (touchY > 20) {
+    keyboard.UP = false;
+    keyboard.DOWN = true;
+  }
+  if (touchY > -20 && touchY < 20) {
+    keyboard.UP = false;
+    keyboard.DOWN = false;
+  }
+  if (touchX < -20) {
+    keyboard.LEFT = true;
+    keyboard.RIGHT = false;
+  }
+  if (touchX > 20) {
+    keyboard.LEFT = false;
+    keyboard.RIGHT = true;
+  }
+  if (touchX > -20 && touchX < 20) {
+    keyboard.LEFT = false;
+    keyboard.RIGHT = false;
+  }
 }
 
 function toggleGameKeyListeners(state) {
