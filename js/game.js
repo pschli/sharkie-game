@@ -1,14 +1,18 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let music = new Music(true);
+let allIntervals = [];
 
 function init() {
   canvas = document.getElementById("canvas");
   initLevels(canvas);
-  world = new World(canvas, keyboard, true);
+  world = new World(canvas, keyboard);
 }
 
 window.addEventListener("keydown", (e) => {
+  if (e.code === "KeyM") music.toggleMusic();
+  if (e.code === "KeyN") music.toggleSound();
   if (e.code === "ArrowUp") keyboard.UP = true;
   if (e.code === "ArrowDown") keyboard.DOWN = true;
   if (e.code === "ArrowLeft") keyboard.LEFT = true;

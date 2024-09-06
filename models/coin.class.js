@@ -28,6 +28,7 @@ class Coin extends Sprite {
     this.animationInterval = setInterval(() => {
       this.playAnimation(this.IMAGES);
     }, 200);
+    allIntervals.push(this.animationInterval);
   }
 
   checkCollect() {
@@ -37,6 +38,7 @@ class Coin extends Sprite {
         this.removeCoin();
       }
     }, 200);
+    allIntervals.push(this.checkInterval);
   }
 
   removeCoin() {

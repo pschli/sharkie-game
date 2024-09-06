@@ -108,9 +108,10 @@ class Pufferfish extends Sprite {
   }
 
   checkTransformationDistance() {
-    setInterval(() => {
+    let intervalId = setInterval(() => {
       if (this.characterIsClose()) this.transformToBubble();
     }, 200);
+    allIntervals.push(intervalId);
   }
 
   characterIsClose() {
@@ -123,7 +124,7 @@ class Pufferfish extends Sprite {
   }
 
   animate() {
-    setInterval(() => {
+    let intervalId = setInterval(() => {
       if (!this.dead) {
         if (this.x + 200 > world.character.x && !this.reversed) this.moveLeft();
         else if (this.x - 200 > world.character.x && this.reversed) {
@@ -144,9 +145,11 @@ class Pufferfish extends Sprite {
         }, 300);
       }
     }, 1000 / 60);
-    setInterval(() => {
+    let intervalId2 = setInterval(() => {
       this.animationFrames();
     }, 150);
+    allIntervals.push(intervalId);
+    allIntervals.push(intervalId2);
   }
 
   animationFrames() {

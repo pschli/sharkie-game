@@ -33,6 +33,7 @@ class Bottle extends Sprite {
     this.animationInterval = setInterval(() => {
       this.playAnimation(this.IMAGES);
     }, 200);
+    allIntervals.push(this.animationInterval);
   }
 
   checkCollect() {
@@ -42,6 +43,7 @@ class Bottle extends Sprite {
         this.removeBottle();
       }
     }, 200);
+    allIntervals.push(this.checkInterval);
   }
 
   removeBottle() {

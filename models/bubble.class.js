@@ -40,7 +40,7 @@ class Bubble extends Sprite {
       this.x = x + 230;
     } else this.x = x - 50;
     this.y = y + 150;
-    this.shootBubble.play();
+    if (music.soundOn) this.shootBubble.play();
     this.animate();
     this.hitTarget();
   }
@@ -65,17 +65,19 @@ class Bubble extends Sprite {
         } else this.popBubble();
       }
     }, 30);
+    allIntervals.push(this.hitInterval);
   }
 
   popBubble() {
     clearInterval(this.hitInterval);
     this.speed_x = 0;
     this.currentImage = 0;
-    this.popBubbleSound.play();
-    setInterval(() => {
+    if (music.soundOn) this.popBubbleSound.play();
+    let intervalId = setInterval(() => {
       this.playAnimation(this.IMAGES_POP);
       if (this.currentImage === this.IMAGES_POP.length - 1) this.y = -300;
     }, 20);
+    allIntervals.push(intervalId);
   }
 
   bubbleTrapEnemy(enemy) {
@@ -85,7 +87,7 @@ class Bubble extends Sprite {
   }
 
   animate() {
-    setInterval(() => {
+    let intervalId = setInterval(() => {
       if (!this.otherDirection) {
         this.moveRight();
       } else {
@@ -100,5 +102,6 @@ class Bubble extends Sprite {
         this.moveUp();
       }
     }, 1000 / 60);
+    allIntervals.push(intervalId);
   }
 }

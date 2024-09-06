@@ -80,7 +80,7 @@ class Jelly extends Sprite {
   }
 
   animate() {
-    setInterval(() => {
+    let intervalId = setInterval(() => {
       if (!this.dead) {
         if (this.x + 300 > world.character.x && !this.reversed) this.moveLeft();
         else if (this.x - 300 > world.character.x && this.reversed) {
@@ -92,10 +92,12 @@ class Jelly extends Sprite {
         }
       } else this.moveUp();
     }, 1000 / 60);
-    setInterval(() => {
+    let intervalId2 = setInterval(() => {
       if (!this.dead) {
         this.playAnimation(this.IMAGES_MOVING[this.variant]);
       } else this.playAnimation(this.IMAGES_DEAD[this.variant]);
     }, 150);
+    allIntervals.push(intervalId);
+    allIntervals.push(intervalId2);
   }
 }

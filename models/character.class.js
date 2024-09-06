@@ -181,13 +181,15 @@ class Character extends Sprite {
   }
 
   animate() {
-    setInterval(() => {
+    let intervalId = setInterval(() => {
       this.movement();
     }, 1000 / 60);
 
-    setInterval(() => {
+    let intervalId2 = setInterval(() => {
       this.animationFrames();
     }, 100);
+    allIntervals.push(intervalId);
+    allIntervals.push(intervalId2);
   }
 
   animationFrames() {
@@ -207,10 +209,10 @@ class Character extends Sprite {
       this.isIdle = false;
     } else if (this.characterMoves()) {
       this.playAnimation(this.IMAGES_MOVING);
-      this.moveSound.play();
+      if (music.soundOn) this.moveSound.play();
       this.isIdle = false;
     } else if (this.isIdle && Date.now() - this.idleStart > 15000) {
-      this.snoreSound.play();
+      if (music.soundOn) this.snoreSound.play();
       if (this.longIdle > 10) {
         this.currentImage = 8;
         this.longIdle = 6;
@@ -250,13 +252,13 @@ class Character extends Sprite {
 
   showDeath() {
     if (this.death === "shocked") {
-      this.shockDeathSound.play();
+      if (music.soundOn) this.shockDeathSound.play();
       this.playAnimation(this.IMAGES_DEAD_SHOCK);
       if (this.currentImage === this.IMAGES_DEAD_SHOCK.length) {
         this.death = "stay shocked";
       }
     } else if (this.death === "poisoned") {
-      this.poisonDeathSound.play();
+      if (music.soundOn) this.poisonDeathSound.play();
       this.playAnimation(this.IMAGES_DEAD_POISON);
       if (this.currentImage === this.IMAGES_DEAD_POISON.length) {
         this.death = "stay poisoned";
@@ -291,7 +293,7 @@ class Character extends Sprite {
     if (!enemy.dead && this.death === "none") {
       if (enemy.constructor.name === "Pufferfish") {
         if (this.world.keyboard.ATTACK) {
-          this.slapSound.play();
+          if (music.soundOn) this.slapSound.play();
           enemy.dead = true;
         } else this.takeDamage("poisoned", 1);
       } else if (enemy.constructor.name === "Jelly") this.hitByJelly(enemy);
@@ -310,7 +312,7 @@ class Character extends Sprite {
 
   takeDamage(damageType, damageStrength) {
     if (!this.immuneToDamage()) {
-      this.painSound.play();
+      if (music.soundOn) this.painSound.play();
       this.health -= 10 * damageStrength;
       this.world.gameValues[0].setValue(this.health);
       if (this.health <= 0) {
@@ -336,6 +338,6 @@ class Character extends Sprite {
 
   collectCoin() {
     this.coins += 1;
-    this.coinSound.play();
+    if (music.soundOn) this.coinSound.play();
   }
 }

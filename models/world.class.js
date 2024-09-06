@@ -5,35 +5,27 @@ class World {
   endReached = false;
   bubbles = [];
   endBoss = new Boss();
-  music = new Audio("audio/mixkit-epical-drums-05-680.mp3");
-  noMusic;
+  soundsOn;
   ctx;
   canvas;
   keyboard;
   offset = 0;
 
-  constructor(canvas, keyboard, noMusic = false) {
+  constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.ctx.font = "50px LuckiestGuy";
     this.ctx.textAlign = "end";
-    this.noMusic = noMusic;
-    this.music.loop = true;
     this.draw();
     this.setWorld();
     this.checkCollisions();
     this.checkObsolete();
     this.checkEndArea();
-    this.playMusic();
-  }
-
-  playMusic() {
-    if (!this.noMusic) this.music.play();
   }
 
   checkObsolete() {
-    setInterval(() => {
+    let intervalId = setInterval(() => {
       for (let i = 0; i < this.level.enemies.length; i++) {
         if (this.level.enemies[i].y < -200) {
           this.level.enemies.splice(i, 1);
@@ -53,24 +45,27 @@ class World {
         }
       }
     }, 500);
+    allIntervals.push(intervalId);
   }
 
   checkCollisions() {
-    setInterval(() => {
+    let intervalId = setInterval(() => {
       this.level.enemies.forEach((enemy) => {
         if (this.character.isColliding(enemy)) {
           this.character.getHitByEnemy(enemy);
         }
       });
     }, 50);
+    allIntervals.push(intervalId);
   }
 
   checkEndbossCollisions() {
-    setInterval(() => {
+    let intervalId = setInterval(() => {
       if (this.character.isColliding(this.endBoss)) {
         this.character.getHitByEnemy(this.endBoss);
       }
     }, 50);
+    allIntervals.push(intervalId);
   }
 
   checkEndArea() {
@@ -85,6 +80,7 @@ class World {
         this.endReached = true;
       }
     }, 500);
+    allIntervals.push(endInterval);
   }
 
   draw() {

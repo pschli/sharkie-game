@@ -79,9 +79,10 @@ class Boss extends Sprite {
   }
 
   animate() {
-    this.animationInterval = setInterval(() => {
+    let intervalId = (this.animationInterval = setInterval(() => {
       this.animationFrames();
-    }, 100);
+    }, 100));
+    allIntervals.push(intervalId);
   }
 
   animationFrames() {
@@ -147,7 +148,7 @@ class Boss extends Sprite {
   }
 
   movement() {
-    setInterval(() => {
+    let intervalId = setInterval(() => {
       if (!this.death) {
         if (this.x + 500 > world.character.x && !this.reversed) this.moveLeft();
         else if (this.x - 500 > world.character.x && this.reversed) {
@@ -163,6 +164,7 @@ class Boss extends Sprite {
         else if (this.y < world.character.y - 120) this.moveDown();
       } else if (this.y > -400) this.moveUp();
     }, 1000 / 60);
+    allIntervals.push(intervalId);
   }
 
   takeDamage() {
