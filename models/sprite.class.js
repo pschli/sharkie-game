@@ -2,32 +2,26 @@ class Sprite extends Display {
   speed_x = 0.15;
   speed_y = 0.15;
   otherDirection = false;
-  /*
-  drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Boss) {
-      ctx.beginPath();
-      ctx.lineWidth = "5";
-      ctx.strokeStyle = "green";
-      ctx.rect(
-        this.x + this.collision_inset_left,
-        this.y + this.collision_inset_top,
-        this.width - this.collision_inset_right,
-        this.height - this.collision_inset_bottom
-      );
-      ctx.stroke();
-    }
-  }*/
 
+  /**
+   * checks for overlapping Objects
+   * @param {Object} sprite
+   * @returns true or false
+   */
   isColliding(sprite) {
     return (
       this.touchesLeftBorder(sprite) &&
       this.touchesRightBorder(sprite) &&
       this.touchesBottomBorder(sprite) &&
       this.touchesTopBorder(sprite)
-      //     && sprite.onCollisionCourse
     );
   }
 
+  /**
+   * checks left border for overlap
+   * @param {Object} sprite
+   * @returns true / false
+   */
   touchesLeftBorder(sprite) {
     return (
       this.x +
@@ -38,6 +32,11 @@ class Sprite extends Display {
     );
   }
 
+  /**
+   * checks right border for overlap
+   * @param {Object} sprite
+   * @returns true / false
+   */
   touchesRightBorder(sprite) {
     return (
       this.x + this.collision_inset_left <=
@@ -48,6 +47,11 @@ class Sprite extends Display {
     );
   }
 
+  /**
+   * checks bottom border for overlap
+   * @param {Object} sprite
+   * @returns true / false
+   */
   touchesBottomBorder(sprite) {
     return (
       this.y +
@@ -58,6 +62,11 @@ class Sprite extends Display {
     );
   }
 
+  /**
+   * checks top border for overlap
+   * @param {Object} sprite
+   * @returns true / false
+   */
   touchesTopBorder(sprite) {
     return (
       this.y + this.collision_inset_top <=
@@ -68,6 +77,10 @@ class Sprite extends Display {
     );
   }
 
+  /**
+   * iterates throung array of images to form an animation
+   * @param {Array} images
+   */
   playAnimation(images) {
     let i = this.currentImage % images.length;
     let path = images[i];
@@ -75,18 +88,30 @@ class Sprite extends Display {
     this.currentImage++;
   }
 
+  /**
+   * changing position of Object by moving left
+   */
   moveLeft() {
     this.x -= this.speed_x;
   }
 
+  /**
+   * changing position of Object by moving right
+   */
   moveRight() {
     this.x += this.speed_x;
   }
 
+  /**
+   * changing position of Object by moving up
+   */
   moveUp() {
     this.y -= this.speed_y;
   }
 
+  /**
+   * changing position of Object by moving down
+   */
   moveDown() {
     this.y += this.speed_y;
   }
