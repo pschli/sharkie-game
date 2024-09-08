@@ -22,6 +22,9 @@ let looseImg = new Image();
 looseImg.src = "../img/6_Botones/Titles/Game Over/Recurso 9.png";
 let music = new Music(true);
 
+/**
+ * initialize the page on load
+ */
 function init() {
   canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
@@ -31,17 +34,24 @@ function init() {
   showSplashStartHelper();
 }
 
-function startGame() {
+/**
+ * starting the actual game
+ */
+async function startGame() {
+  await initLevels(canvas);
   window.removeEventListener("keydown", startListener);
   hud.style = "";
   hud.style.zIndex = "20";
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   overlay.innerHTML = "";
   toggleGameKeyListeners("on");
-  initLevels(canvas);
   world = new World(canvas, keyboard);
 }
 
+/**
+ * handles the end of the game
+ * @param {boolean} win states if the game has been won
+ */
 function gameOverHelper(win) {
   hud.style = "";
   hud.style.visibility = "hidden";
@@ -56,6 +66,10 @@ function gameOverHelper(win) {
   }, 200);
 }
 
+/**
+ * ends all game functions and intervals. Invokes the matching splashscreen
+ * @param {boolean} win states if the game has been won
+ */
 function gameOver(win) {
   stopIntervals();
   cancelAnimationFrame(animationFrame);
@@ -69,6 +83,9 @@ function gameOver(win) {
   }, 200);
 }
 
+/**
+ * invokes Start Screen
+ */
 function showSplashStartHelper() {
   hud.style.visibility = "hidden";
   showSplashStart();
@@ -77,31 +94,49 @@ function showSplashStartHelper() {
   }, 500);
 }
 
+/**
+ * draws Start Screen
+ */
 function showSplashStart() {
   ctx.drawImage(startImg, 0, 0, canvas.width, canvas.height);
   displayStartButton();
 }
 
+/**
+ * draws Win Splash Screen
+ */
 function showSplashWin() {
   ctx.drawImage(winImg, 0, 0, canvas.width, canvas.height);
 }
 
+/**
+ * draws Loose Splash Screen
+ */
 function showSplashLoose() {
   ctx.drawImage(looseImg, 100, 200, canvas.width - 200, canvas.height - 300);
 }
 
+/**
+ * shows the restart button
+ */
 function displayRestartButton() {
   window.addEventListener("keydown", restartListener);
   overlay.innerHTML = `<button id="restart" onclick="restartGame()">Restart</button><br>
   <h3>or Press Space to restart</h3>`;
 }
 
+/**
+ * shows the start button
+ */
 function displayStartButton() {
   window.addEventListener("keydown", startListener);
   overlay.innerHTML = `<button id="restart" onclick="startGame()">Start</button><br>
   <h3>or Press Space to start</h3>`;
 }
 
+/**
+ * prepares the game for restart
+ */
 function restartGame() {
   window.removeEventListener("keydown", restartListener);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -109,18 +144,29 @@ function restartGame() {
   showSplashStart();
 }
 
+/**
+ * initializes event listeners for the start splash screen
+ * @param {event} e keyboard event
+ */
 function startListener(e) {
   if (e.code === "Space") startGame();
   if (e.code === "KeyM") music.toggleMusic();
   if (e.code === "KeyN") music.toggleSound();
 }
 
+/**
+ * initializes event listeners for the game over splash screen
+ * @param {event} e keyboard event
+ */
 function restartListener(e) {
   if (e.code === "Space") {
     restartGame();
   }
 }
 
+/**
+ * stops all intervals set during the game
+ */
 function stopIntervals() {
   allIntervals.forEach((interval) => {
     clearInterval(interval);
@@ -128,20 +174,18 @@ function stopIntervals() {
   allIntervals = [];
 }
 
-function handleKeyDownWrapper(e) {
-  handleKeyDown(e);
-}
-
-function handleKeyUpWrapper(e) {
-  handleKeyUp(e);
-}
-
+/**
+ * HUD overlay for mobile gaming
+ */
 function activateHud() {
   activateMoveArea();
   activateAttacks();
   activateSettings();
 }
 
+/**
+ * HUD elements for sound settings
+ */
 function activateSettings() {
   setMusic = document.getElementById("music");
   setSounds = document.getElementById("sound");
@@ -149,16 +193,27 @@ function activateSettings() {
   setSounds.addEventListener("touchstart", handleSetSounds);
 }
 
+/**
+ * handles touch event for music setting element in HUD
+ * @param {event} event touch event
+ */
 function handleSetMusic(event) {
   event.preventDefault();
   music.toggleMusic();
 }
 
+/**
+ * handles touch event for sound setting element in HUD
+ * @param {event} event touch event
+ */
 function handleSetSounds(event) {
   event.preventDefault();
   music.toggleSound();
 }
 
+/**
+ * HUD elements for attacks
+ */
 function activateAttacks() {
   attackBubble = document.getElementById("bubbles");
   attackFin = document.getElementById("fin");
@@ -166,18 +221,29 @@ function activateAttacks() {
   attackFin.addEventListener("touchstart", handleFinStart);
 }
 
+/**
+ * bubble attack on touch
+ * @param {event} event touch event
+ */
 function handleBubbleStart(event) {
   event.preventDefault();
   keyboard.BUBBLE = true;
   world.character.currentImage = 0;
 }
 
+/**
+ * fin attack on touch
+ * @param {event} event touch event
+ */
 function handleFinStart(event) {
   event.preventDefault();
   keyboard.ATTACK = true;
   world.character.currentImage = 0;
 }
 
+/**
+ * initializes the movement control for mobile gaming
+ */
 function activateMoveArea() {
   movebox = document.getElementById("movebox");
   movebox.addEventListener("touchstart", handleStart);
@@ -185,12 +251,20 @@ function activateMoveArea() {
   movebox.addEventListener("touchmove", handleMove);
 }
 
+/**
+ * gets and saves the starting coordinates of a touch in the movement area
+ * @param {event} event touchstart
+ */
 function handleStart(event) {
   event.preventDefault();
   touchCenterX = event.changedTouches[0].screenX;
   touchCenterY = event.changedTouches[0].screenY;
 }
 
+/**
+ * resets all movement variables
+ * @param {event} event touchend
+ */
 function handleEnd(event) {
   event.preventDefault();
   keyboard.UP = false;
@@ -199,6 +273,10 @@ function handleEnd(event) {
   keyboard.RIGHT = false;
 }
 
+/**
+ * sets movement variables according to the delta between the current touch and the start
+ * @param {event} event touchmove
+ */
 function handleMove(event) {
   event.preventDefault();
   let touchX = event.changedTouches[0].screenX - touchCenterX;
@@ -229,6 +307,10 @@ function handleMove(event) {
   }
 }
 
+/**
+ *
+ * @param {string} state
+ */
 function toggleGameKeyListeners(state) {
   if (state === "on") {
     window.addEventListener("keydown", handleKeyDown);
@@ -239,6 +321,10 @@ function toggleGameKeyListeners(state) {
   }
 }
 
+/**
+ * handles keyboard events during the game
+ * @param {event} e keydown
+ */
 function handleKeyDown(e) {
   if (e.code === "KeyM") music.toggleMusic();
   if (e.code === "KeyN") music.toggleSound();
@@ -258,6 +344,10 @@ function handleKeyDown(e) {
   if (e.code === "Escape") keyboard.EXIT = true;
 }
 
+/**
+ * handles keyboard events during the game
+ * @param {event} e keydown
+ */
 function handleKeyUp(e) {
   if (e.code === "ArrowUp") keyboard.UP = false;
   if (e.code === "ArrowDown") keyboard.DOWN = false;
@@ -266,6 +356,9 @@ function handleKeyUp(e) {
   if (e.code === "Escape") keyboard.EXIT = false;
 }
 
+/**
+ * toggles the canvas to fullscreen and back
+ */
 function toggleFullScreen() {
   if (!document.fullscreenElement) {
     canvas.requestFullscreen().catch((err) => {

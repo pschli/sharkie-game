@@ -1,5 +1,10 @@
 let level1;
 
+/**
+ * creates the background tiles for the game
+ * @param {number} times iterations to determine the length width of the level
+ * @returns an array of Background elements
+ */
 function createBackground(times) {
   let background = [];
   for (i = 0; i <= times; i++) {
@@ -35,6 +40,11 @@ function createBackground(times) {
   return background;
 }
 
+/**
+ * creates the middleground tiles for the game
+ * @param {number} times iterations to determine the length width of the level
+ * @returns an array of Middleground elements
+ */
 function createMiddleground(times) {
   let background = [];
   for (i = 0; i <= times; i++) {
@@ -56,6 +66,11 @@ function createMiddleground(times) {
   return background;
 }
 
+/**
+ * creates the foreground tiles for the game
+ * @param {number} times iterations to determine the length width of the level
+ * @returns an array of Foreground elements
+ */
 function createForeground(times) {
   let background = [];
   for (i = 0; i <= times; i++) {
@@ -77,16 +92,11 @@ function createForeground(times) {
   return background;
 }
 
-function createPuffy(distance) {
-  let puffy = new Pufferfish(distance);
-  return puffy;
-}
-
-function createJelly(distance) {
-  let jelly = new Jelly(distance);
-  return jelly;
-}
-
+/**
+ * creates gnemies for the game
+ * @param {number} times iterations to determine, how many enemies the are
+ * @returns an Array of enemy Objects
+ */
 function createEnemies(times) {
   let enemies = [];
   for (i = 0; i <= times; i++) {
@@ -100,16 +110,50 @@ function createEnemies(times) {
   return enemies;
 }
 
+/**
+ * creates an instance of Pufferfish
+ * @param {number} distance where the enemy is created
+ * @returns Pufferfish object
+ */
+function createPuffy(distance) {
+  let puffy = new Pufferfish(distance);
+  return puffy;
+}
+
+/**
+ * creates an instance of Jelly
+ * @param {number} distance where the enemy is created
+ * @returns Jelly object
+ */
+function createJelly(distance) {
+  let jelly = new Jelly(distance);
+  return jelly;
+}
+
+/**
+ * creates a poison bottle for collection
+ * @param {number} distance random coordinate
+ * @returns Bottle object
+ */
 function createPoisonBottle(distance) {
   let bottle = new Bottle(distance);
   return bottle;
 }
 
+/**
+ * creates a coin for collection
+ * @param {number} distance random coordinate
+ * @returns Coin object
+ */
 function createCoin(distance) {
   let coin = new Coin(distance);
   return coin;
 }
 
+/**
+ * creates collectables for the level
+ * @returns array of Coin and Bottle objects
+ */
 function createCollectables() {
   let collectables = [];
   for (i = 0; i <= 50; i++) {
@@ -125,7 +169,11 @@ function createCollectables() {
   return collectables;
 }
 
-function initLevels(canvas) {
+/**
+ * Builds the level from various objects
+ * @param {Element} canvas
+ */
+async function initLevels(canvas) {
   level1 = new Level(
     createBackground(5),
     createMiddleground(5),
