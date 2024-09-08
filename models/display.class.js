@@ -6,11 +6,19 @@ class Display {
   imageCache = {};
   currentImage = 0;
 
+  /**
+   * create new Image Object
+   * @param {string} path
+   */
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
   }
 
+  /**
+   * load array of Images and create Image Objects
+   * @param {Array} arr
+   */
   loadImages(arr) {
     arr.forEach((path) => {
       let img = new Image();
@@ -19,10 +27,18 @@ class Display {
     });
   }
 
+  /**
+   * draw image on canvas
+   * @param {CanvasRenderingContext2D} ctx
+   */
   drawSprite(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
+  /**
+   * draw static elements according to value
+   * @param {number} value
+   */
   setValue(value) {
     if ((value) => 90) this.img = this.imageCache[this.IMAGES[5]];
     if (value < 90) this.img = this.imageCache[this.IMAGES[4]];

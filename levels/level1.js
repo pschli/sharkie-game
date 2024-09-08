@@ -5,7 +5,7 @@ let level1;
  * @param {number} times iterations to determine the length width of the level
  * @returns an array of Background elements
  */
-function createBackground(times) {
+async function createBackground(times) {
   let background = [];
   for (i = 0; i <= times; i++) {
     background.push(
@@ -45,7 +45,7 @@ function createBackground(times) {
  * @param {number} times iterations to determine the length width of the level
  * @returns an array of Middleground elements
  */
-function createMiddleground(times) {
+async function createMiddleground(times) {
   let background = [];
   for (i = 0; i <= times; i++) {
     background.push(
@@ -71,7 +71,7 @@ function createMiddleground(times) {
  * @param {number} times iterations to determine the length width of the level
  * @returns an array of Foreground elements
  */
-function createForeground(times) {
+async function createForeground(times) {
   let background = [];
   for (i = 0; i <= times; i++) {
     background.push(
@@ -97,7 +97,7 @@ function createForeground(times) {
  * @param {number} times iterations to determine, how many enemies the are
  * @returns an Array of enemy Objects
  */
-function createEnemies(times) {
+async function createEnemies(times) {
   let enemies = [];
   for (i = 0; i <= times; i++) {
     enemies.push(
@@ -154,7 +154,7 @@ function createCoin(distance) {
  * creates collectables for the level
  * @returns array of Coin and Bottle objects
  */
-function createCollectables() {
+async function createCollectables() {
   let collectables = [];
   for (i = 0; i <= 50; i++) {
     collectables.push(
@@ -175,10 +175,10 @@ function createCollectables() {
  */
 async function initLevels(canvas) {
   level1 = new Level(
-    createBackground(5),
-    createMiddleground(5),
-    createForeground(5),
-    createEnemies(20),
-    createCollectables()
+    await createBackground(5),
+    await createMiddleground(5),
+    await createForeground(5),
+    await createEnemies(20),
+    await createCollectables()
   );
 }

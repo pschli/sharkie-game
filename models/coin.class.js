@@ -24,6 +24,9 @@ class Coin extends Sprite {
     this.checkCollect();
   }
 
+  /**
+   * animation interval
+   */
   animate() {
     this.animationInterval = setInterval(() => {
       this.playAnimation(this.IMAGES);
@@ -31,6 +34,9 @@ class Coin extends Sprite {
     allIntervals.push(this.animationInterval);
   }
 
+  /**
+   * collision check for coin and character
+   */
   checkCollect() {
     this.checkInterval = setInterval(() => {
       if (this.isColliding(world.character)) {
@@ -41,6 +47,9 @@ class Coin extends Sprite {
     allIntervals.push(this.checkInterval);
   }
 
+  /**
+   * remove collected coin and end intervals
+   */
   removeCoin() {
     clearInterval(this.checkInterval);
     clearInterval(this.animationInterval);

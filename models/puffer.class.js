@@ -107,6 +107,9 @@ class Pufferfish extends Sprite {
     this.checkTransformationDistance();
   }
 
+  /**
+   * checks distance to character and transforms pufferfish when near
+   */
   checkTransformationDistance() {
     let intervalId = setInterval(() => {
       if (this.characterIsClose()) this.transformToBubble();
@@ -114,35 +117,31 @@ class Pufferfish extends Sprite {
     allIntervals.push(intervalId);
   }
 
+  /**
+   * determines whether character is close
+   * @returns true / false
+   */
   characterIsClose() {
     return this.x - world.character.x < 500 && this.puffState === "normal";
   }
 
+  /**
+   * starts transform animation
+   */
   transformToBubble() {
     this.puffState = "transition";
     this.currentImage = 0;
   }
 
+  /**
+   * movement and animation
+   */
   animate() {
     let intervalId = setInterval(() => {
       if (!this.dead) {
-        if (this.x + 200 > world.character.x && !this.reversed) this.moveLeft();
-        else if (this.x - 200 > world.character.x && this.reversed) {
-          this.otherDirection = false;
-          this.reversed = false;
-          this.moveLeft();
-        } else {
-          this.otherDirection = true;
-          this.reversed = true;
-          this.moveRight();
-        }
+        this.movement();
       } else {
-        setTimeout(() => {
-          this.speed_x = 5;
-          this.speed_y = 5;
-          this.moveRight();
-          this.moveUp();
-        }, 300);
+        this.floatUp();
       }
     }, 1000 / 60);
     let intervalId2 = setInterval(() => {
@@ -152,6 +151,37 @@ class Pufferfish extends Sprite {
     allIntervals.push(intervalId2);
   }
 
+  /**
+   * movement when alive
+   */
+  movement() {
+    if (this.x + 200 > world.character.x && !this.reversed) this.moveLeft();
+    else if (this.x - 200 > world.character.x && this.reversed) {
+      this.otherDirection = false;
+      this.reversed = false;
+      this.moveLeft();
+    } else {
+      this.otherDirection = true;
+      this.reversed = true;
+      this.moveRight();
+    }
+  }
+
+  /**
+   * float up when dead
+   */
+  floatUp() {
+    setTimeout(() => {
+      this.speed_x = 5;
+      this.speed_y = 5;
+      this.moveRight();
+      this.moveUp();
+    }, 300);
+  }
+
+  /**
+   * animations depending on state
+   */
   animationFrames() {
     if (this.dead) {
       setTimeout(() => {

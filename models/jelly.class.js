@@ -79,17 +79,12 @@ class Jelly extends Sprite {
     this.animate();
   }
 
+  /**
+   * movement and animation intervals
+   */
   animate() {
     let intervalId = setInterval(() => {
       if (!this.dead) {
-        if (this.x + 300 > world.character.x && !this.reversed) this.moveLeft();
-        else if (this.x - 300 > world.character.x && this.reversed) {
-          this.reversed = false;
-          this.moveLeft();
-        } else {
-          this.reversed = true;
-          this.moveRight();
-        }
       } else this.moveUp();
     }, 1000 / 60);
     let intervalId2 = setInterval(() => {
@@ -99,5 +94,19 @@ class Jelly extends Sprite {
     }, 150);
     allIntervals.push(intervalId);
     allIntervals.push(intervalId2);
+  }
+
+  /**
+   * movement intervals
+   */
+  movement() {
+    if (this.x + 300 > world.character.x && !this.reversed) this.moveLeft();
+    else if (this.x - 300 > world.character.x && this.reversed) {
+      this.reversed = false;
+      this.moveLeft();
+    } else {
+      this.reversed = true;
+      this.moveRight();
+    }
   }
 }

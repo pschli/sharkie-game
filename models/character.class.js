@@ -159,20 +159,12 @@ class Character extends Sprite {
     this.animate();
   }
 
+  /**
+   * movement of character depending on death state
+   */
   movement() {
     if (this.death === "none") {
-      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-        this.otherDirection = false;
-        this.moveRight();
-      }
-      if (this.world.keyboard.LEFT && this.x > 50) {
-        this.otherDirection = true;
-        this.moveLeft();
-      }
-      this.world.offset = -this.x + 50;
-      if (this.world.keyboard.UP && this.y > -100) this.moveUp();
-      if (this.world.keyboard.DOWN && this.y < this.world.canvas.height - 300)
-        this.moveDown();
+      this.aliveMovement();
     } else if (
       this.death === "stay shocked" &&
       this.y < this.world.canvas.height - 300
@@ -181,6 +173,27 @@ class Character extends Sprite {
     else if (this.death === "stay poisoned" && this.y > -100) this.moveUp();
   }
 
+  /**
+   * movement by user input
+   */
+  aliveMovement() {
+    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+      this.otherDirection = false;
+      this.moveRight();
+    }
+    if (this.world.keyboard.LEFT && this.x > 50) {
+      this.otherDirection = true;
+      this.moveLeft();
+    }
+    this.world.offset = -this.x + 50;
+    if (this.world.keyboard.UP && this.y > -100) this.moveUp();
+    if (this.world.keyboard.DOWN && this.y < this.world.canvas.height - 300)
+      this.moveDown();
+  }
+
+  /**
+   * animation and movement intervals
+   */
   animate() {
     let intervalId = setInterval(() => {
       this.movement();
@@ -193,6 +206,9 @@ class Character extends Sprite {
     allIntervals.push(intervalId2);
   }
 
+  /**
+   * animations depending on actions
+   */
   animationFrames() {
     if (this.death != "none") {
       this.showDeath();
@@ -213,21 +229,39 @@ class Character extends Sprite {
       if (music.soundOn) this.moveSound.play();
       this.isIdle = false;
     } else if (this.isIdle && Date.now() - this.idleStart > 15000) {
-      if (music.soundOn) this.snoreSound.play();
-      if (this.longIdle > 10) {
-        this.currentImage = 8;
-        this.longIdle = 6;
-      }
-      this.playAnimation(this.IMAGES_LONG_IDLE);
-      this.longIdle++;
+      this.animateLongIdle();
     } else {
-      this.playAnimation(this.IMAGES_IDLE);
-      if (!this.isIdle) this.idleStart = Date.now();
-      this.isIdle = true;
-      this.longIdle = 0;
+      this.animateIdle();
     }
   }
 
+  /**
+   * show idle animation
+   */
+  animateIdle() {
+    this.playAnimation(this.IMAGES_IDLE);
+    if (!this.isIdle) this.idleStart = Date.now();
+    this.isIdle = true;
+    this.longIdle = 0;
+  }
+
+  /**
+   * show animation after 15 seconds idle
+   */
+  animateLongIdle() {
+    if (music.soundOn) this.snoreSound.play();
+    if (this.longIdle > 10) {
+      this.currentImage = 8;
+      this.longIdle = 6;
+    }
+    this.playAnimation(this.IMAGES_LONG_IDLE);
+    this.longIdle++;
+  }
+
+  /**
+   * checks if movement keys were pressed
+   * @returns true / false
+   */
   characterMoves() {
     return (
       this.world.keyboard.RIGHT ||
@@ -237,6 +271,9 @@ class Character extends Sprite {
     );
   }
 
+  /**
+   * animates poison damage
+   */
   showPoisoned() {
     this.playAnimation(this.IMAGES_POISONED);
     if (this.currentImage === this.IMAGES_POISONED.length) {
@@ -244,6 +281,9 @@ class Character extends Sprite {
     }
   }
 
+  /**
+   * animates shock damage
+   */
   showShocked() {
     this.playAnimation(this.IMAGES_SHOCKED);
     if (this.currentImage >= this.IMAGES_SHOCKED.length * 3) {
@@ -251,19 +291,14 @@ class Character extends Sprite {
     }
   }
 
+  /**
+   * animates death sequences
+   */
   showDeath() {
     if (this.death === "shocked") {
-      if (music.soundOn) this.shockDeathSound.play();
-      this.playAnimation(this.IMAGES_DEAD_SHOCK);
-      if (this.currentImage === this.IMAGES_DEAD_SHOCK.length) {
-        this.death = "stay shocked";
-      }
+      showShockDeath();
     } else if (this.death === "poisoned") {
-      if (music.soundOn) this.poisonDeathSound.play();
-      this.playAnimation(this.IMAGES_DEAD_POISON);
-      if (this.currentImage === this.IMAGES_DEAD_POISON.length) {
-        this.death = "stay poisoned";
-      }
+      showPoisonDeath();
     } else if (this.death === "stay poisoned") {
       this.currentImage = 11;
       this.playAnimation(this.IMAGES_DEAD_POISON);
@@ -272,13 +307,45 @@ class Character extends Sprite {
       this.playAnimation(this.IMAGES_DEAD_SHOCK);
     }
     if (this.loose === false) {
-      this.loose = true;
-      setTimeout(() => {
-        gameOverHelper(false);
-      }, 2000);
+      characterLoses();
     }
   }
 
+  /**
+   * shows death by electro shock
+   */
+  showShockDeath() {
+    if (music.soundOn) this.shockDeathSound.play();
+    this.playAnimation(this.IMAGES_DEAD_SHOCK);
+    if (this.currentImage === this.IMAGES_DEAD_SHOCK.length) {
+      this.death = "stay shocked";
+    }
+  }
+
+  /**
+   * shows death by poison
+   */
+  showPoisonDeath() {
+    if (music.soundOn) this.poisonDeathSound.play();
+    this.playAnimation(this.IMAGES_DEAD_POISON);
+    if (this.currentImage === this.IMAGES_DEAD_POISON.length) {
+      this.death = "stay poisoned";
+    }
+  }
+
+  /**
+   * end game after 2 seconds
+   */
+  characterLoses() {
+    this.loose = true;
+    setTimeout(() => {
+      gameOverHelper(false);
+    }, 2000);
+  }
+
+  /**
+   * animate fin attack
+   */
   showFinAttack() {
     this.collision_inset_right = 50;
     this.playAnimation(this.IMAGES_ATTACK_FIN);
@@ -288,6 +355,9 @@ class Character extends Sprite {
     }
   }
 
+  /**
+   * animate bubble attack
+   */
   showBubbleAttack() {
     this.playAnimation(this.IMAGES_ATTACK_BUBBLE);
     if (this.currentImage === this.IMAGES_ATTACK_BUBBLE.length - 1) {
@@ -296,6 +366,10 @@ class Character extends Sprite {
     }
   }
 
+  /**
+   * on collision with enemy check attack state and enemy type
+   * @param {Object} enemy
+   */
   getHitByEnemy(enemy) {
     if (!enemy.dead && this.death === "none") {
       if (enemy.constructor.name === "Pufferfish") {
@@ -308,15 +382,27 @@ class Character extends Sprite {
     }
   }
 
+  /**
+   * on collision with boss take large amount of damage
+   */
   hitByBoss() {
     this.takeDamage("poisoned", 3);
   }
 
+  /**
+   * on collision with jellyfish take amount of damage depending on variant
+   * @param {Object} enemy
+   */
   hitByJelly(enemy) {
     if (enemy.variant < 2) this.takeDamage("poisoned", 1);
     else this.takeDamage("shocked", 2);
   }
 
+  /**
+   * take damage and check for death
+   * @param {string} damageType
+   * @param {string} damageStrength
+   */
   takeDamage(damageType, damageStrength) {
     if (!this.immuneToDamage()) {
       if (music.soundOn) this.painSound.play();
@@ -332,16 +418,26 @@ class Character extends Sprite {
     }
   }
 
+  /**
+   * checks if last damage is more recent than 1 second
+   * @returns true /false
+   */
   immuneToDamage() {
     if (this.lastHit != 0) return Date.now() - this.lastHit < 1000;
     else return false;
   }
 
+  /**
+   * update values when bottle collected
+   */
   collectBottle() {
     this.poison += 10;
     this.world.gameValues[1].setValue(this.poison);
   }
 
+  /**
+   * update values when coin collected
+   */
   collectCoin() {
     this.coins += 1;
     if (music.soundOn) this.coinSound.play();

@@ -7,6 +7,9 @@ class Music {
     this.stopMusic();
   }
 
+  /**
+   * toggles sound effect mute/unmute
+   */
   toggleSound() {
     if (this.soundOn) {
       this.soundOn = false;
@@ -25,6 +28,9 @@ class Music {
     }
   }
 
+  /**
+   * toggles music mute/unmute
+   */
   toggleMusic() {
     if (this.musicOn) {
       this.stopMusic();
@@ -33,6 +39,9 @@ class Music {
     }
   }
 
+  /**
+   * set music to play in a loop
+   */
   playMusic() {
     this.music.play();
     this.music.loop = true;
@@ -44,6 +53,9 @@ class Music {
     }
   }
 
+  /**
+   * stops music
+   */
   stopMusic() {
     this.music.pause();
     this.musicOn = false;
