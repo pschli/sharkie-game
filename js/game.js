@@ -2,20 +2,25 @@ let canvas;
 let ctx;
 let world;
 let keyboard = new Keyboard();
-let music = new Music(true);
 let allIntervals = [];
 let animationFrame;
 let overlay;
 let movebox;
+let attackBubble;
+let attackFin;
+let setMusic;
+let setSounds;
 let touchCenterX;
 let touchCenterY;
 let hud;
+let fullscreen = false;
 let startImg = new Image();
 startImg.src = "../img/6_Botones/startsplash.png";
 let winImg = new Image();
 winImg.src = "../img/6_Botones/Titles/You win/Mesa de trabajo 1.png";
 let looseImg = new Image();
 looseImg.src = "../img/6_Botones/Titles/Game Over/Recurso 9.png";
+let music = new Music(true);
 
 function init() {
   canvas = document.getElementById("canvas");
@@ -41,6 +46,9 @@ function gameOverHelper(win) {
   hud.style = "";
   hud.style.visibility = "hidden";
   toggleGameKeyListeners("off");
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  }
   gameOver(win);
   setTimeout(() => {
     gameOver(win);
@@ -129,6 +137,48 @@ function handleKeyUpWrapper(e) {
 }
 
 function activateHud() {
+  activateMoveArea();
+  activateAttacks();
+  activateSettings();
+}
+
+function activateSettings() {
+  setMusic = document.getElementById("music");
+  setSounds = document.getElementById("sound");
+  setMusic.addEventListener("touchstart", handleSetMusic);
+  setSounds.addEventListener("touchstart", handleSetSounds);
+}
+
+function handleSetMusic(event) {
+  event.preventDefault();
+  music.toggleMusic();
+}
+
+function handleSetSounds(event) {
+  event.preventDefault();
+  music.toggleSound();
+}
+
+function activateAttacks() {
+  attackBubble = document.getElementById("bubbles");
+  attackFin = document.getElementById("fin");
+  attackBubble.addEventListener("touchstart", handleBubbleStart);
+  attackFin.addEventListener("touchstart", handleFinStart);
+}
+
+function handleBubbleStart(event) {
+  event.preventDefault();
+  keyboard.BUBBLE = true;
+  world.character.currentImage = 0;
+}
+
+function handleFinStart(event) {
+  event.preventDefault();
+  keyboard.ATTACK = true;
+  world.character.currentImage = 0;
+}
+
+function activateMoveArea() {
   movebox = document.getElementById("movebox");
   movebox.addEventListener("touchstart", handleStart);
   movebox.addEventListener("touchend", handleEnd);
@@ -192,6 +242,7 @@ function toggleGameKeyListeners(state) {
 function handleKeyDown(e) {
   if (e.code === "KeyM") music.toggleMusic();
   if (e.code === "KeyN") music.toggleSound();
+  if (e.code === "KeyV") toggleFullScreen();
   if (e.code === "ArrowUp") keyboard.UP = true;
   if (e.code === "ArrowDown") keyboard.DOWN = true;
   if (e.code === "ArrowLeft") keyboard.LEFT = true;
@@ -213,4 +264,14 @@ function handleKeyUp(e) {
   if (e.code === "ArrowLeft") keyboard.LEFT = false;
   if (e.code === "ArrowRight") keyboard.RIGHT = false;
   if (e.code === "Escape") keyboard.EXIT = false;
+}
+
+function toggleFullScreen() {
+  if (!document.fullscreenElement) {
+    canvas.requestFullscreen().catch((err) => {
+      alert(`Fullscreen mode not available`);
+    });
+  } else {
+    document.exitFullscreen();
+  }
 }
