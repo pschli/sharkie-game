@@ -29,6 +29,9 @@ class Bottle extends Sprite {
     this.checkCollect();
   }
 
+  /**
+   * animate coin
+   */
   animate() {
     this.animationInterval = setInterval(() => {
       this.playAnimation(this.IMAGES);
@@ -36,6 +39,9 @@ class Bottle extends Sprite {
     allIntervals.push(this.animationInterval);
   }
 
+  /**
+   * collision check with character
+   */
   checkCollect() {
     this.checkInterval = setInterval(() => {
       if (this.isColliding(world.character)) {
@@ -46,6 +52,9 @@ class Bottle extends Sprite {
     allIntervals.push(this.checkInterval);
   }
 
+  /**
+   * remove collected bottle and end intervals
+   */
   removeBottle() {
     clearInterval(this.checkInterval);
     clearInterval(this.animationInterval);

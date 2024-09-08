@@ -18,8 +18,8 @@ let startImg = new Image();
 startImg.src = "../img/6_Botones/startsplash.png";
 let winImg = new Image();
 winImg.src = "../img/6_Botones/Titles/You win/Mesa de trabajo 1.png";
-let looseImg = new Image();
-looseImg.src = "../img/6_Botones/Titles/Game Over/Recurso 9.png";
+let loseImg = new Image();
+loseImg.src = "../img/6_Botones/Titles/Game Over/Recurso 9.png";
 let music = new Music(true);
 
 /**
@@ -78,7 +78,7 @@ function gameOver(win) {
     if (win) {
       showSplashWin();
     } else {
-      showSplashLoose();
+      showSplashlose();
     }
   }, 200);
 }
@@ -110,10 +110,10 @@ function showSplashWin() {
 }
 
 /**
- * draws Loose Splash Screen
+ * draws lose Splash Screen
  */
-function showSplashLoose() {
-  ctx.drawImage(looseImg, 100, 200, canvas.width - 200, canvas.height - 300);
+function showSplashlose() {
+  ctx.drawImage(loseImg, 100, 200, canvas.width - 200, canvas.height - 300);
 }
 
 /**

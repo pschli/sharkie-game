@@ -19,7 +19,7 @@ class Character extends Sprite {
   idleStart;
   longIdle = 0;
   death = "none";
-  loose = false;
+  lose = false;
   painSound = new Audio("../audio/mixkit-ow-exclamation-of-pain-2204.wav");
   coinSound = new Audio("../audio/coin-recieved-230517.mp3");
   slapSound = new Audio("../audio/punch-41105.mp3");
@@ -296,9 +296,9 @@ class Character extends Sprite {
    */
   showDeath() {
     if (this.death === "shocked") {
-      showShockDeath();
+      this.showShockDeath();
     } else if (this.death === "poisoned") {
-      showPoisonDeath();
+      this.showPoisonDeath();
     } else if (this.death === "stay poisoned") {
       this.currentImage = 11;
       this.playAnimation(this.IMAGES_DEAD_POISON);
@@ -306,8 +306,8 @@ class Character extends Sprite {
       this.currentImage = 9;
       this.playAnimation(this.IMAGES_DEAD_SHOCK);
     }
-    if (this.loose === false) {
-      characterLoses();
+    if (this.lose === false) {
+      this.characterLoses();
     }
   }
 
@@ -337,7 +337,7 @@ class Character extends Sprite {
    * end game after 2 seconds
    */
   characterLoses() {
-    this.loose = true;
+    this.lose = true;
     setTimeout(() => {
       gameOverHelper(false);
     }, 2000);

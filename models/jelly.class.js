@@ -85,6 +85,7 @@ class Jelly extends Sprite {
   animate() {
     let intervalId = setInterval(() => {
       if (!this.dead) {
+        this.movement();
       } else this.moveUp();
     }, 1000 / 60);
     let intervalId2 = setInterval(() => {

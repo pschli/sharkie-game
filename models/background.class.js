@@ -8,11 +8,6 @@ class Background extends Sprite {
     super().loadImage(imagePath);
     this.x = x;
     this.height = height;
-    this.getAspectRatio();
     this.width = this.height * this.ar;
-  }
-
-  getAspectRatio() {
-    this.ar = this.img.naturalWidth / this.img.naturalHeight;
   }
 }

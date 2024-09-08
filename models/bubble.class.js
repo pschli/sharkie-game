@@ -45,6 +45,9 @@ class Bubble extends Sprite {
     this.hitTarget();
   }
 
+  /**
+   * checks if bubble hits
+   */
   hitTarget() {
     this.hitInterval = setInterval(() => {
       world.level.enemies.forEach((enemy) => {
@@ -55,19 +58,30 @@ class Bubble extends Sprite {
         }
       });
       if (this.isColliding(world.endBoss)) {
-        if (this.poison) {
-          world.endBoss.takeDamage();
-          this.y = -300;
-          world.endBoss.currentImage = 0;
-          world.endBoss.speed_x = 0;
-          world.endBoss.speed_y = 0;
-          world.endBoss.state = "poisoned";
-        } else this.popBubble();
+        this.bossHit();
       }
     }, 30);
     allIntervals.push(this.hitInterval);
   }
 
+  /**
+   * bubble hits boss,
+   *
+   */
+  bossHit() {
+    if (this.poison) {
+      world.endBoss.takeDamage();
+      this.y = -300;
+      world.endBoss.currentImage = 0;
+      world.endBoss.speed_x = 0;
+      world.endBoss.speed_y = 0;
+      world.endBoss.state = "poisoned";
+    } else this.popBubble();
+  }
+
+  /**
+   * pop bubble when wrong enemy is hit
+   */
   popBubble() {
     clearInterval(this.hitInterval);
     this.speed_x = 0;
@@ -80,12 +94,19 @@ class Bubble extends Sprite {
     allIntervals.push(intervalId);
   }
 
+  /**
+   * remove bubble and change enemy state
+   * @param {Object} enemy
+   */
   bubbleTrapEnemy(enemy) {
     clearInterval(this.hitInterval);
     this.y = -300;
     enemy.dead = true;
   }
 
+  /**
+   * animate jellyfish
+   */
   animate() {
     let intervalId = setInterval(() => {
       if (!this.otherDirection) {

@@ -78,6 +78,9 @@ class Boss extends Sprite {
     this.loadImages(this.IMAGES_DEAD);
   }
 
+  /**
+   * animation interval
+   */
   animate() {
     let intervalId = (this.animationInterval = setInterval(() => {
       this.animationFrames();
@@ -85,6 +88,9 @@ class Boss extends Sprite {
     allIntervals.push(intervalId);
   }
 
+  /**
+   * different animation types
+   */
   animationFrames() {
     this.checkForAttack();
     if (this.death) {
@@ -100,6 +106,9 @@ class Boss extends Sprite {
     }
   }
 
+  /**
+   * death animation
+   */
   showDeath() {
     this.playAnimation(this.IMAGES_DEAD);
     if (this.currentImage >= 5) {
@@ -114,6 +123,9 @@ class Boss extends Sprite {
     }
   }
 
+  /**
+   * animation if hit by poison bubble
+   */
   showHurt() {
     this.playAnimation(this.IMAGES_HURT);
     if (this.currentImage >= 5) {
@@ -123,6 +135,9 @@ class Boss extends Sprite {
     }
   }
 
+  /**
+   * attack animation
+   */
   showAttack() {
     this.playAnimation(this.IMAGES_ATTACK);
     if (this.currentImage >= 3) {
@@ -131,6 +146,9 @@ class Boss extends Sprite {
     }
   }
 
+  /**
+   * generate attack event randomly
+   */
   checkForAttack() {
     let probe = Math.floor(Math.random() * 1000);
     if (probe > 960) {
@@ -140,6 +158,9 @@ class Boss extends Sprite {
     }
   }
 
+  /**
+   * intro animation
+   */
   playIntro() {
     this.playAnimation(this.IMAGES_INTRO);
     if (this.currentImage >= 9) {
@@ -150,6 +171,9 @@ class Boss extends Sprite {
     }
   }
 
+  /**
+   * boss movement according to character position
+   */
   movement() {
     let intervalId = setInterval(() => {
       if (!this.death) {
@@ -170,6 +194,9 @@ class Boss extends Sprite {
     allIntervals.push(intervalId);
   }
 
+  /**
+   * damage calculation
+   */
   takeDamage() {
     this.health -= 10;
     if (this.health <= 0) {
@@ -180,6 +207,9 @@ class Boss extends Sprite {
     }
   }
 
+  /**
+   * engaging with character and updating bubble type
+   */
   engage() {
     this.engaged = true;
     this.currentImage = 0;
