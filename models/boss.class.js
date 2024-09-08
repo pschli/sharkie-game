@@ -20,57 +20,57 @@ class Boss extends Sprite {
   moveInterval;
 
   IMAGES_FLOATING = [
-    "../img/2_Enemy/3_Final_Enemy/2.floating/1.png",
-    "../img/2_Enemy/3_Final_Enemy/2.floating/2.png",
-    "../img/2_Enemy/3_Final_Enemy/2.floating/3.png",
-    "../img/2_Enemy/3_Final_Enemy/2.floating/4.png",
-    "../img/2_Enemy/3_Final_Enemy/2.floating/5.png",
-    "../img/2_Enemy/3_Final_Enemy/2.floating/6.png",
-    "../img/2_Enemy/3_Final_Enemy/2.floating/7.png",
-    "../img/2_Enemy/3_Final_Enemy/2.floating/8.png",
-    "../img/2_Enemy/3_Final_Enemy/2.floating/9.png",
-    "../img/2_Enemy/3_Final_Enemy/2.floating/10.png",
-    "../img/2_Enemy/3_Final_Enemy/2.floating/11.png",
-    "../img/2_Enemy/3_Final_Enemy/2.floating/12.png",
-    "../img/2_Enemy/3_Final_Enemy/2.floating/13.png",
+    "./img/2_Enemy/3_Final_Enemy/2.floating/1.png",
+    "./img/2_Enemy/3_Final_Enemy/2.floating/2.png",
+    "./img/2_Enemy/3_Final_Enemy/2.floating/3.png",
+    "./img/2_Enemy/3_Final_Enemy/2.floating/4.png",
+    "./img/2_Enemy/3_Final_Enemy/2.floating/5.png",
+    "./img/2_Enemy/3_Final_Enemy/2.floating/6.png",
+    "./img/2_Enemy/3_Final_Enemy/2.floating/7.png",
+    "./img/2_Enemy/3_Final_Enemy/2.floating/8.png",
+    "./img/2_Enemy/3_Final_Enemy/2.floating/9.png",
+    "./img/2_Enemy/3_Final_Enemy/2.floating/10.png",
+    "./img/2_Enemy/3_Final_Enemy/2.floating/11.png",
+    "./img/2_Enemy/3_Final_Enemy/2.floating/12.png",
+    "./img/2_Enemy/3_Final_Enemy/2.floating/13.png",
   ];
   IMAGES_ATTACK = [
-    "../img/2_Enemy/3_Final_Enemy/Attack/1.png",
-    "../img/2_Enemy/3_Final_Enemy/Attack/2.png",
-    "../img/2_Enemy/3_Final_Enemy/Attack/3.png",
-    "../img/2_Enemy/3_Final_Enemy/Attack/4.png",
-    "../img/2_Enemy/3_Final_Enemy/Attack/5.png",
-    "../img/2_Enemy/3_Final_Enemy/Attack/6.png",
+    "./img/2_Enemy/3_Final_Enemy/Attack/1.png",
+    "./img/2_Enemy/3_Final_Enemy/Attack/2.png",
+    "./img/2_Enemy/3_Final_Enemy/Attack/3.png",
+    "./img/2_Enemy/3_Final_Enemy/Attack/4.png",
+    "./img/2_Enemy/3_Final_Enemy/Attack/5.png",
+    "./img/2_Enemy/3_Final_Enemy/Attack/6.png",
   ];
   IMAGES_INTRO = [
-    "../img/2_Enemy/3_Final_Enemy/1.Introduce/1.png",
-    "../img/2_Enemy/3_Final_Enemy/1.Introduce/2.png",
-    "../img/2_Enemy/3_Final_Enemy/1.Introduce/3.png",
-    "../img/2_Enemy/3_Final_Enemy/1.Introduce/4.png",
-    "../img/2_Enemy/3_Final_Enemy/1.Introduce/5.png",
-    "../img/2_Enemy/3_Final_Enemy/1.Introduce/6.png",
-    "../img/2_Enemy/3_Final_Enemy/1.Introduce/7.png",
-    "../img/2_Enemy/3_Final_Enemy/1.Introduce/8.png",
-    "../img/2_Enemy/3_Final_Enemy/1.Introduce/9.png",
-    "../img/2_Enemy/3_Final_Enemy/1.Introduce/10.png",
+    "./img/2_Enemy/3_Final_Enemy/1.Introduce/1.png",
+    "./img/2_Enemy/3_Final_Enemy/1.Introduce/2.png",
+    "./img/2_Enemy/3_Final_Enemy/1.Introduce/3.png",
+    "./img/2_Enemy/3_Final_Enemy/1.Introduce/4.png",
+    "./img/2_Enemy/3_Final_Enemy/1.Introduce/5.png",
+    "./img/2_Enemy/3_Final_Enemy/1.Introduce/6.png",
+    "./img/2_Enemy/3_Final_Enemy/1.Introduce/7.png",
+    "./img/2_Enemy/3_Final_Enemy/1.Introduce/8.png",
+    "./img/2_Enemy/3_Final_Enemy/1.Introduce/9.png",
+    "./img/2_Enemy/3_Final_Enemy/1.Introduce/10.png",
   ];
   IMAGES_HURT = [
-    "../img/2_Enemy/3_Final_Enemy/Hurt/1.png",
-    "../img/2_Enemy/3_Final_Enemy/Hurt/2.png",
-    "../img/2_Enemy/3_Final_Enemy/Hurt/3.png",
-    "../img/2_Enemy/3_Final_Enemy/Hurt/4.png",
+    "./img/2_Enemy/3_Final_Enemy/Hurt/1.png",
+    "./img/2_Enemy/3_Final_Enemy/Hurt/2.png",
+    "./img/2_Enemy/3_Final_Enemy/Hurt/3.png",
+    "./img/2_Enemy/3_Final_Enemy/Hurt/4.png",
   ];
   IMAGES_DEAD = [
-    "../img/2_Enemy/3_Final_Enemy/Dead/boss_dead.png",
-    "../img/2_Enemy/3_Final_Enemy/Dead/boss_dead6.png",
-    "../img/2_Enemy/3_Final_Enemy/Dead/boss_dead7.png",
-    "../img/2_Enemy/3_Final_Enemy/Dead/boss_dead8.png",
-    "../img/2_Enemy/3_Final_Enemy/Dead/boss_dead9.png",
-    "../img/2_Enemy/3_Final_Enemy/Dead/boss_dead10.png",
+    "./img/2_Enemy/3_Final_Enemy/Dead/boss_dead.png",
+    "./img/2_Enemy/3_Final_Enemy/Dead/boss_dead6.png",
+    "./img/2_Enemy/3_Final_Enemy/Dead/boss_dead7.png",
+    "./img/2_Enemy/3_Final_Enemy/Dead/boss_dead8.png",
+    "./img/2_Enemy/3_Final_Enemy/Dead/boss_dead9.png",
+    "./img/2_Enemy/3_Final_Enemy/Dead/boss_dead10.png",
   ];
 
   constructor() {
-    super().loadImage("../img/2_Enemy/3_Final_Enemy/1.Introduce/1.png");
+    super().loadImage("./img/2_Enemy/3_Final_Enemy/1.Introduce/1.png");
     this.loadImages(this.IMAGES_INTRO);
     this.loadImages(this.IMAGES_FLOATING);
     this.loadImages(this.IMAGES_ATTACK);
@@ -115,7 +115,7 @@ class Boss extends Sprite {
       this.speed_x = 0;
       this.speed_y = 1.5;
       clearInterval(this.animationInterval);
-      this.loadImage("../img/2_Enemy/3_Final_Enemy/Dead/boss_dead10.png");
+      this.loadImage("./img/2_Enemy/3_Final_Enemy/Dead/boss_dead10.png");
       this.movement();
       setTimeout(() => {
         gameOverHelper(true);

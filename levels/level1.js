@@ -10,28 +10,28 @@ async function createBackground(times) {
   for (i = 0; i <= times; i++) {
     background.push(
       new Background(
-        "../img/3_Background/Layers/5_Water/D1.png",
+        "./img/3_Background/Layers/5_Water/D1.png",
         i * 2 * 959,
         canvas.height
       )
     );
     background.push(
       new Background(
-        "../img/3_Background/Layers/4_Fondo_2/D1.png",
+        "./img/3_Background/Layers/4_Fondo_2/D1.png",
         i * 2 * 959,
         canvas.height
       )
     );
     background.push(
       new Background(
-        "../img/3_Background/Layers/5_Water/D2.png",
+        "./img/3_Background/Layers/5_Water/D2.png",
         959 + i * 2 * 959,
         canvas.height
       )
     );
     background.push(
       new Background(
-        "../img/3_Background/Layers/4_Fondo_2/D2.png",
+        "./img/3_Background/Layers/4_Fondo_2/D2.png",
         959 + i * 2 * 959,
         canvas.height
       )
@@ -50,14 +50,14 @@ async function createMiddleground(times) {
   for (i = 0; i <= times; i++) {
     background.push(
       new Background(
-        "../img/3_Background/Layers/3_Fondo_1/D1.png",
+        "./img/3_Background/Layers/3_Fondo_1/D1.png",
         i * 2 * 959,
         canvas.height
       )
     );
     background.push(
       new Background(
-        "../img/3_Background/Layers/3_Fondo_1/D2.png",
+        "./img/3_Background/Layers/3_Fondo_1/D2.png",
         959 + i * 2 * 959,
         canvas.height
       )
@@ -76,14 +76,14 @@ async function createForeground(times) {
   for (i = 0; i <= times; i++) {
     background.push(
       new Background(
-        "../img/3_Background/Layers/2_Floor/D1.png",
+        "./img/3_Background/Layers/2_Floor/D1.png",
         i * 2 * 959,
         canvas.height
       )
     );
     background.push(
       new Background(
-        "../img/3_Background/Layers/2_Floor/D2.png",
+        "./img/3_Background/Layers/2_Floor/D2.png",
         959 + i * 2 * 959,
         canvas.height
       )

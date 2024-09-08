@@ -15,11 +15,11 @@ let touchCenterY;
 let hud;
 let fullscreen = false;
 let startImg = new Image();
-startImg.src = "../img/6_Botones/startsplash.png";
+startImg.src = "./img/6_Botones/startsplash.png";
 let winImg = new Image();
-winImg.src = "../img/6_Botones/Titles/You win/Mesa de trabajo 1.png";
+winImg.src = "./img/6_Botones/Titles/You win/Mesa de trabajo 1.png";
 let loseImg = new Image();
-loseImg.src = "../img/6_Botones/Titles/Game Over/Recurso 9.png";
+loseImg.src = "./img/6_Botones/Titles/Game Over/Recurso 9.png";
 let music = new Music(true);
 
 /**

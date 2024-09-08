@@ -11,22 +11,22 @@ class Bubble extends Sprite {
   waterResistance = 0.3;
   speed_y = 0;
   hitInterval;
-  shootBubble = new Audio("../audio/mixkit-water-bubble-1317.wav");
+  shootBubble = new Audio("./audio/mixkit-water-bubble-1317.wav");
   popBubbleSound = new Audio("audio/bubble-pop-100784.mp3");
 
   IMAGES_POP = [
-    "../img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop1.png",
-    "../img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop2.png",
-    "../img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop3.png",
-    "../img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop4.png",
-    "../img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop5.png",
+    "./img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop1.png",
+    "./img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop2.png",
+    "./img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop3.png",
+    "./img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop4.png",
+    "./img/1_Sharkie/4_Attack/Bubble_trap/Bubble_pop5.png",
   ];
 
   constructor(x, y, otherDirection) {
-    super().loadImage("../img/1_Sharkie/4_Attack/Bubble_trap/Bubble.png");
+    super().loadImage("./img/1_Sharkie/4_Attack/Bubble_trap/Bubble.png");
     if (world.character.poisonBubbles && world.character.poison > 0) {
       this.loadImage(
-        "../img/1_Sharkie/4_Attack/Bubble_trap/Poisoned_Bubble_(for_whale).png"
+        "./img/1_Sharkie/4_Attack/Bubble_trap/Poisoned_Bubble_(for_whale).png"
       );
       this.poison = true;
       world.character.poison -= 5;

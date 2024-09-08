@@ -6,6 +6,6 @@ class Money extends Display {
   coinsCollected = 0;
 
   constructor() {
-    super().loadImage("../img/4_ Marcadores/1_Coins/4.png");
+    super().loadImage("./img/4_ Marcadores/1_Coins/4.png");
   }
 }
