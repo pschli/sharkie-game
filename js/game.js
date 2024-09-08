@@ -7,6 +7,8 @@ let allIntervals = [];
 let animationFrame;
 let overlay;
 let movebox;
+let touchCenterX;
+let touchCenterY;
 let hud;
 let startImg = new Image();
 startImg.src = "../img/6_Botones/startsplash.png";
@@ -135,12 +137,8 @@ function activateHud() {
 
 function handleStart(event) {
   event.preventDefault();
-  let touchX = event.changedTouches[0].screenX - 295;
-  let touchY = event.changedTouches[0].screenY - 510;
-  if (touchY < -20) keyboard.UP = true;
-  if (touchY > 20) keyboard.DOWN = true;
-  if (touchX < -20) keyboard.LEFT = true;
-  if (touchX > 20) keyboard.RIGHT = true;
+  touchCenterX = event.changedTouches[0].screenX;
+  touchCenterY = event.changedTouches[0].screenY;
 }
 
 function handleEnd(event) {
@@ -153,8 +151,8 @@ function handleEnd(event) {
 
 function handleMove(event) {
   event.preventDefault();
-  let touchX = event.changedTouches[0].screenX - 295;
-  let touchY = event.changedTouches[0].screenY - 510;
+  let touchX = event.changedTouches[0].screenX - touchCenterX;
+  let touchY = event.changedTouches[0].screenY - touchCenterY;
   if (touchY < -20) {
     keyboard.UP = true;
     keyboard.DOWN = false;
