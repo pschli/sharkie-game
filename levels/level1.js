@@ -178,7 +178,7 @@ async function initLevels(canvas) {
     await createBackground(5),
     await createMiddleground(5),
     await createForeground(5),
-    await createEnemies(0),
+    await createEnemies(20),
     await createCollectables()
   );
 }

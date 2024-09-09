@@ -212,10 +212,12 @@ class Boss extends Sprite {
    * engaging with character and updating bubble type
    */
   engage() {
-    this.engaged = true;
-    this.currentImage = 0;
-    this.animate();
-    world.character.poisonBubbles = true;
-    world.gameValues.push(new Bosslife());
+    if (this.engaged === false) {
+      this.engaged = true;
+      this.currentImage = 0;
+      this.animate();
+      world.character.poisonBubbles = true;
+      world.gameValues.push(new Bosslife());
+    }
   }
 }
