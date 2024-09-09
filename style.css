@@ -13,6 +13,71 @@ body {
   background-color: #404fae;
 }
 
+header {
+  width: 100%;
+  box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+.backlink {
+  max-width: 1440px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-left: 40px;
+  margin-top: 60px;
+}
+
+.backlink img {
+  height: 36px;
+  width: 36px;
+  margin-right: 12px;
+}
+
+.backlink a {
+  display: flex;
+  align-items: center;
+  font-family: "LuckiestGuy";
+  font-size: 28px;
+  color: #ffff00;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.backlink span {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.main {
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+}
+
+.imprint-text {
+  font-size: 20px;
+  font-family: sans-serif;
+  color: white;
+}
+
+.imprint-text h2 {
+  margin-top: 60px;
+  font-family: sans-serif;
+  -webkit-text-stroke-width: 0;
+}
+
+.imprint-text a {
+  color: #ffff00;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.imprint-text a:hover {
+  color: #ffb700;
+}
+
 button {
   cursor: pointer;
 }
@@ -136,6 +201,22 @@ canvas {
   height: 100%;
   background-color: transparent;
   z-index: 10;
+}
+
+.overlay a {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-family: sans-serif;
+  font-size: 20px;
+  color: #ffff00;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.overlay a:hover {
+  color: #ffb700;
 }
 
 #restart {

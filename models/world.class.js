@@ -81,12 +81,12 @@ class World {
     let endInterval = setInterval(() => {
       if (
         this.endReached === false &&
-        this.character.x > this.level.level_end_x - 50 &&
+        this.character.x > this.level.level_end_x - 150 &&
         this.endBoss.engaged === false
       ) {
+        this.endReached = true;
         this.endBoss.engage();
         this.checkEndbossCollisions();
-        this.endReached = true;
       }
     }, 500);
     allIntervals.push(endInterval);

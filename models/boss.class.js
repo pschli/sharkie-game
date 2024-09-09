@@ -199,6 +199,7 @@ class Boss extends Sprite {
    */
   takeDamage() {
     this.health -= 10;
+    world.gameValues[3].setValue(this.health);
     if (this.health <= 0) {
       this.death = true;
       this.speed_x = 0;
@@ -215,5 +216,6 @@ class Boss extends Sprite {
     this.currentImage = 0;
     this.animate();
     world.character.poisonBubbles = true;
+    world.gameValues.push(new Bosslife());
   }
 }

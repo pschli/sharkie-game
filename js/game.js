@@ -8,6 +8,7 @@ let overlay;
 let movebox;
 let attackBubble;
 let attackFin;
+let firstRun = true;
 let setMusic;
 let setSounds;
 let touchCenterX;
@@ -16,6 +17,8 @@ let hud;
 let fullscreen = false;
 let startImg = new Image();
 startImg.src = "./img/6_Botones/startsplash.png";
+let startImgMobile = new Image();
+startImgMobile.src = "./img/6_Botones/startsplashmobile.png";
 let winImg = new Image();
 winImg.src = "./img/6_Botones/Titles/You win/Mesa de trabajo 1.png";
 let loseImg = new Image();
@@ -46,6 +49,11 @@ async function startGame() {
   overlay.innerHTML = "";
   toggleGameKeyListeners("on");
   world = new World(canvas, keyboard);
+  if (firstRun) {
+    music.playMusic();
+    music.playSounds();
+    firstRun = false;
+  }
 }
 
 /**
@@ -98,8 +106,13 @@ function showSplashStartHelper() {
  * draws Start Screen
  */
 function showSplashStart() {
-  ctx.drawImage(startImg, 0, 0, canvas.width, canvas.height);
+  if (window.matchMedia("(pointer: coarse)").matches) {
+    ctx.drawImage(startImgMobile, 0, 0, canvas.width, canvas.height);
+  } else {
+    ctx.drawImage(startImg, 0, 0, canvas.width, canvas.height);
+  }
   displayStartButton();
+  displayImprint();
 }
 
 /**
@@ -132,6 +145,10 @@ function displayStartButton() {
   window.addEventListener("keydown", startListener);
   overlay.innerHTML = `<button id="restart" onclick="startGame()">Start</button><br>
   <h3>or Press Space to start</h3>`;
+}
+
+function displayImprint() {
+  overlay.innerHTML += `<a href="./impressum.html">Impressum</a>`;
 }
 
 /**
